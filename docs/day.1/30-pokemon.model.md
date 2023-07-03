@@ -1,5 +1,18 @@
 # Pokemon Detail Model
 
+## LiteCLI
+
+instalacia:
+
+```bash
+$ poetry add --group dev litecli
+```
+
+spustenie:
+
+```bash
+$ litecli pokedex.sqlite
+```
 
 ## Analýza
 
