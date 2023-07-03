@@ -3,22 +3,19 @@
 
 ## Analýza
 
+![pikachu](images/pikachu.jpg)
 
 o subore budeme chciet uchovavat:
 
 * `slug` -
-* `filename` - nazov suboru, ktory pouzivatel nahra, povinny
-* `url` - URL adresa, z ktorej bude mozne subor stiahnut
-* `expires` - datum, dokedy bude subor ulozeny v sluzbe
-* `downloads` - pocet stiahnuti suboru
-* `max_downloads` - maximalny pocet stiahnuti, po jeho dosiahnuti sa subor zmaze
-* `size` - velkost suboru v bytoch
-* `mime_type` - typ obsahu suboru, v hlavicke HTTP oznacovany ako `content-type`
 * `created_at` - datum a cas vytvorenia (nahratia) suboru
 * `updated_at` - datum a cas poslednej aktualizacie suboru alebo jeho vlastnosti
 
 
-## Vysledny model
+# Pydantic a SQLModel
+
+
+## Výsledný model
 
 model pre reprezentaciu suboru moze vyzerat takto:
 
