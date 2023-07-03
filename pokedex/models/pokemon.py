@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from sqlmodel import SQLModel, Field
 
 
-class Pokemon(BaseModel):
-    id: int  # primarny kluc
+class Pokemon(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)  # primarny kluc
     name: str  # meno pokemona
     type1: str  # typ pokemona
     type2: str
