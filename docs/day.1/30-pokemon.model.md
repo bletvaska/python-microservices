@@ -1,8 +1,8 @@
-# File Detail Model
+# Pokemon Detail Model
 
 
-## Analyza
-podla vzoru sluzby [file.io](http://file.io) vytvorime model, ktory bude reprezentovat subor (zdroj nasej sluzby). na jeho reprezentaciu pouzijeme modul [Pydantic](https://pydantic-docs.helpmanual.io/).
+## Analýza
+
 
 o subore budeme chciet uchovavat:
 

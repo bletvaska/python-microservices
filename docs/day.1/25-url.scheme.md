@@ -18,15 +18,14 @@ nase REST API bude pouzivat prefix `/api/v1/`
 
 ### Resource Files
 
-| path            | method   | meaning                              | status    |
-|-----------------|----------|--------------------------------------|-----------|
-| `/{slug}`       | `GET`    | download file with given `slug`      | `200`     |
-| `/files/{slug}` | `GET`    | get file info as JSON document       | `200`     |
-| `/files/{slug}` | `DELETE` | delete file with given `slug`        | `200`, `204`  |
-| `/files/{slug}` | `PUT`    | full update of file with `slug`      | `200`     |
-| `/files/{slug}` | `PATCH`  | partial update of file with `slug`   | `200`     |
-| `/files/`       | `POST`   | create/upload new file               | `201`     |
-| `/files/`       | `GET`    | return list of files                 | `200`     |
+| path                    | method   | meaning                               | status    |
+|-------------------------|----------|---------------------------------------|-----------|
+| `/api/pokemons/{slug}`  | `GET`    | get pokemon info as JSON document     | `200`     |
+| `/api/pokemons/{slug}`  | `DELETE` | delete pokemon with given `slug`      | `200`, `204`  |
+| `/api/pokemons/{slug}`  | `PUT`    | full update of pokemon with `slug`    | `200`     |
+| `/api/pokemons/{slug}`  | `PATCH`  | partial update of pokemon with `slug` | `200`     |
+| `/api/pokemons/`        | `POST`   | create new pokemon                    | `201`     |
+| `/api/pokemons/`        | `GET`    | return list of pokemons               | `200`     |
 
 
 ### Resource Users
