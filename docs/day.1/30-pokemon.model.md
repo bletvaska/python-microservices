@@ -1,4 +1,16 @@
-# Pokemon Detail Model
+# Pokemon Model
+
+
+## Čo je to model?
+
+
+## Databáza s Pokémonmi
+
+Databáza s Pokémonmi sa nachádza v súbore `resources/pokedex.sqlite`. Na základe uložených dát vytvoríme model 
+Pokémona, s ktorým budeme pracovať. 
+
+Najprv sa teda pozrieme do samotných dát pomocou konzolového klienta [litecli](https://litecli.com). 
+
 
 ## LiteCLI
 
@@ -14,39 +26,21 @@ spustenie:
 $ litecli pokedex.sqlite
 ```
 
-## Analýza
+
+## Analýza dát
+
+Pozrime sa na štandardnú kartu Pokémena. Konkrétne na kartu s Pokémonom Pikachu:
 
 ![pikachu](../images/pikachu.jpg)
 
-o subore budeme chciet uchovavat:
+O každom Pokémonovi nás môžu zaujímať nasledujúce vlastnosti:
 
-* `slug` -
-* `created_at` - datum a cas vytvorenia (nahratia) suboru
-* `updated_at` - datum a cas poslednej aktualizacie suboru alebo jeho vlastnosti
+* `pokedex_number` - poradové číslo Pokémona v Pokédexe
+* `name` - meno Pokémona
+* `height` - výška Pokémona
+* `weight` - hmotnosť Pokémona
+* `classification` - 
+* `type1` - 
+* `type2` - 
 
-
-# Pydantic a SQLModel
-
-
-## Výsledný model
-
-model pre reprezentaciu suboru moze vyzerat takto:
-
-```python
-from datetime import datetime
-from pydantic import BaseModel, HttpUrl
-
-
-class File(BaseModel):
-    # id: int
-    slug: str | None = None
-    filename: str
-    url: HttpUrl | None = None
-    expires: datetime | None = None
-    downloads = 0
-    max_downloads = 1
-    size: int
-    mime_type: str = 'application/octet-stream'
-    created_at: datetime | None = None
-    updated_at: datetime | None = None
-```
+A z týchto vlastností vytvoríme model.

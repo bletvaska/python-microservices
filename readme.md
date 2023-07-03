@@ -2,7 +2,11 @@
 
 rozsah: 5 dní
 
-Počas tohto kurzu účastníci vytvoria jednoduchú mikroslužbu na ukladanie súborov po vzore služby file.io. Mikroslužba bude vytvorená v modernom a populárnom mikro webovom rámci FastAPI, validovať údaje budeme pomocou populárneho modulu Pydantic a perzistenciu zabezpečíme pomocou ORM modulu SQLModel, ktorý je postavený na populárnom ORM module SQLAlchemy. Okrem REST API vytvoríme aj webové používateľské rozhranie pomocou šablónovacieho systému Jinja2. Na záver aplikáciu zabalíme do Docker obrazu a pripravíme ju na použitie v klastri.
+Počas tohto kurzu účastníci vytvoria jednoduchú mikroslužbu na ukladanie súborov po vzore služby file.io. 
+Mikroslužba bude vytvorená v modernom a populárnom mikro webovom rámci FastAPI, validovať údaje budeme pomocou 
+populárneho modulu Pydantic a perzistenciu zabezpečíme pomocou ORM modulu SQLModel, ktorý je postavený na 
+populárnom ORM module SQLAlchemy. Okrem REST API vytvoríme aj webové používateľské rozhranie pomocou šablónovacieho 
+systému Jinja2. Na záver aplikáciu zabalíme do Docker obrazu a pripravíme ju na použitie v klastri.
 
 Znalosť jazyka Python na tomto školení je nutná.
 

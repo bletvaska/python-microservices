@@ -4,6 +4,7 @@ validatory poskytuju mechanizmus, pomocou ktoreho mozeme overovat spravnost udaj
 
 okrem toho vsak vieme validatory pouzivat aj na inicializovanie hodnot po vytvoreni objektu.
 
+## Overenie výšky a hmotnosti
 
 ## Overenie MIME typu suboru
 
