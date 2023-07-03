@@ -3,7 +3,7 @@
 
 ## Analýza
 
-![pikachu](images/pikachu.jpg)
+![pikachu](../images/pikachu.jpg)
 
 o subore budeme chciet uchovavat:
 
