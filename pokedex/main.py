@@ -1,5 +1,5 @@
 import uvicorn as uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from sqladmin import Admin
 from sqlmodel import create_engine, Session, select
 
@@ -21,6 +21,21 @@ def get_list_of_pokemons():
         pokemons = session.exec(statement).all()
 
     return pokemons
+
+
+@app.get('/api/pokemons/{pokedex_number}')
+def get_list_of_pokemons(pokedex_number: int):
+    with Session(engine) as session:
+        statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
+        pokemon = session.exec(statement).one_or_none()
+
+        if pokemon is None:
+            raise HTTPException(
+                status_code=404,
+                detail=f'Pokémon with pokédex number {pokedex_number} not found.',
+            )
+
+    return pokemon
 
 
 @app.get('/')
