@@ -8,7 +8,8 @@ from pokedex.models.pokemon import PokemonAdmin
 app = FastAPI()
 
 # db engine
-engine = create_engine('sqlite:////home/mirek/Documents/kurzy/python-courses/python-microservices/resources/pokedex.sqlite')
+engine = create_engine(
+    'sqlite:////home/mirek/Documents/kurzy/python-courses/python-microservices/resources/pokedex.sqlite')
 admin = Admin(app, engine)
 admin.add_view(PokemonAdmin)
 
