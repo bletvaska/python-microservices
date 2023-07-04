@@ -1,28 +1,26 @@
 import math
 
 import fastapi
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from sqlmodel import Session, select, create_engine
 
+from pokedex.dependencies import get_session
 from pokedex.models.pokemon import Pokemon
 
 router = fastapi.APIRouter()
 
-engine = create_engine(
-    'sqlite:////home/mirek/Documents/kurzy/python-courses/python-microservices/resources/pokedex.sqlite')
-
 
 @router.get('/api/pokemons')
-def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size: int = 10):
+def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size: int = 10,
+                         session: Session = Depends(get_session)):
     pokemons_total = 801
 
-    with Session(engine) as session:
-        statement = select(Pokemon).offset(offset * page_size).limit(page_size)
+    statement = select(Pokemon).offset(offset * page_size).limit(page_size)
 
-        if classification is not None:
-            statement = statement.where(Pokemon.classification == classification)
+    if classification is not None:
+        statement = statement.where(Pokemon.classification == classification)
 
-        pokemons = session.exec(statement).all()
+    pokemons = session.exec(statement).all()
 
     previous_link = None
     if offset - 1 > 0:
@@ -38,15 +36,15 @@ def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size:
 
 
 @router.get('/api/pokemons/{pokedex_number}')
-def get_pokemon_detail(pokedex_number: int):
-    with Session(engine) as session:
-        statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
-        pokemon = session.exec(statement).one_or_none()
+def get_pokemon_detail(pokedex_number: int,
+                       session: Session = Depends(get_session)):
+    statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
+    pokemon = session.exec(statement).one_or_none()
 
-        if pokemon is None:
-            raise HTTPException(
-                status_code=404,
-                detail=f'Pokémon with pokédex number {pokedex_number} not found.',
-            )
+    if pokemon is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f'Pokémon with pokédex number {pokedex_number} not found.',
+        )
 
     return pokemon
