@@ -4,15 +4,17 @@ import fastapi
 from fastapi import HTTPException, Depends
 from sqlmodel import Session, select, create_engine
 
-from pokedex.dependencies import get_session
+from pokedex.dependencies import get_session, get_settings
 from pokedex.models.pokemon import Pokemon
+from pokedex.models.settings import Settings
 
 router = fastapi.APIRouter()
 
 
 @router.get('/api/pokemons')
 def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size: int = 10,
-                         session: Session = Depends(get_session)):
+                         session: Session = Depends(get_session),
+                         settings: Settings = Depends(get_settings)):
     pokemons_total = 801
 
     statement = select(Pokemon).offset(offset * page_size).limit(page_size)
