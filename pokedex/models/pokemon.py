@@ -10,6 +10,7 @@ class Pokemon(SQLModel, table=True):
     weight: float  # hmotnost
     height: float  # vyska
     pokedex_number: int  # id pokemona v pokedexe
+    classification: str
 
 
 class PokemonAdmin(ModelView, model=Pokemon):

@@ -15,9 +15,13 @@ admin.add_view(PokemonAdmin)
 
 
 @app.get('/api/pokemons')
-def get_list_of_pokemons():
+def get_list_of_pokemons(classification: str = None):
     with Session(engine) as session:
         statement = select(Pokemon)
+
+        if classification is not None:
+            statement = statement.where(Pokemon.classification == classification)
+
         pokemons = session.exec(statement).all()
 
     return pokemons
