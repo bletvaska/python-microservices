@@ -1,12 +1,18 @@
 import math
 
+import fastapi
 from fastapi import HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, select, create_engine
 
 from pokedex.models.pokemon import Pokemon
 
+router = fastapi.APIRouter()
 
-@app.get('/api/pokemons')
+engine = create_engine(
+    'sqlite:////home/mirek/Documents/kurzy/python-courses/python-microservices/resources/pokedex.sqlite')
+
+
+@router.get('/api/pokemons')
 def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size: int = 10):
     pokemons_total = 801
 
@@ -31,7 +37,7 @@ def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size:
     }
 
 
-@app.get('/api/pokemons/{pokedex_number}')
+@router.get('/api/pokemons/{pokedex_number}')
 def get_pokemon_detail(pokedex_number: int):
     with Session(engine) as session:
         statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
