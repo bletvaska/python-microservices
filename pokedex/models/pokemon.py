@@ -5,10 +5,10 @@ from sqlmodel import SQLModel, Field
 class Pokemon(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)  # primarny kluc
     name: str  # meno pokemona
-    type1: str  # typ pokemona
-    type2: str
-    weight: float  # hmotnost
-    height: float  # vyska
+    type1: str # typ pokemona
+    type2: str | None
+    weight: float | None  # hmotnost
+    height: float | None  # vyska
     pokedex_number: int  # id pokemona v pokedexe
     classification: str
 

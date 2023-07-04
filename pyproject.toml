@@ -13,6 +13,7 @@ sqlmodel = "^0.0.8"
 sqladmin = "^0.13.0"
 itsdangerous = "^2.1.2"
 pydantic = {version = "1.10.10", extras = ["dotenv"]}
+fastapi-pagination = "^0.12.5"
 
 
 [tool.poetry.group.dev.dependencies]

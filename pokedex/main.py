@@ -1,20 +1,21 @@
-import math
+#!/usr/bin/env python
 
 import uvicorn as uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
+from fastapi_pagination import add_pagination
 from sqladmin import Admin
-from sqlmodel import create_engine, Session, select
+from sqlmodel import create_engine
 
 from pokedex.api.pokemons import router as pokemons_router
 from pokedex.dependencies import get_settings
-from pokedex.models.pokemon import PokemonAdmin, Pokemon
+from pokedex.models.pokemon import PokemonAdmin
 
 app = FastAPI()
 app.include_router(pokemons_router)
+add_pagination(app)
 
 # db engine
 engine = create_engine(get_settings().db_uri)
-# 'sqlite:////home/mirek/Documents/kurzy/python-courses/python-microservices/resources/pokedex.sqlite'
 admin = Admin(app, engine)
 admin.add_view(PokemonAdmin)
 
