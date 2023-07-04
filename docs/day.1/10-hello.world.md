@@ -16,7 +16,8 @@ $ poetry add fastapi uvicorn[standard]
 
 ## Hello World!
 
-aby sme sa zbytocne nezdrziavali, pouzijeme rovno kostru aplikacie so vsetkym potrebnym. do svojho modulu `main.py` vlozte tento kod:
+aby sme sa zbytocne nezdrziavali, pouzijeme rovno kostru aplikacie so vsetkym potrebnym. do svojho modulu `main.py` 
+vlozte tento kod:
 
 ```python
 from fastapi import FastAPI
@@ -25,7 +26,7 @@ app = FastAPI()
 
 
 @app.get("/")
-def read_root():
+def hello():
     return "Hello, World!"
 
 
@@ -37,10 +38,13 @@ if __name__ == '__main__':
     main()
 ```
 
+Funkciu `hello()` budeme nazývať _path operation_.
+
 
 ## Nastavenie spravneho interpretera
 
 Ak IDE nerozpoznava pouzite balicky (napr. podciarkuje priamo v importe balik `fastapi`), je potrebne zvolit spravny interpreter jazyka Python. Konkretne ten, ktory je pozity v prostredi vytvorenom pomocou nastroja `poetry`.
+
 
 ### Zistenie cesty interpretera jazyka Python
 

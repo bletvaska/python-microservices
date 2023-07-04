@@ -10,25 +10,27 @@ navrh schemy REST API
 
 ![URL Format Explained](../images/url.format.explained.png)
 
+Časť URL adresy označená ako `path` sa zvykne nazývať aj `endpoint` alebo `route`.
+
 
 ## REST API
 
 nase REST API bude pouzivat prefix `/api/v1/`
 
 
-### Resource Files
+### Resource `pokemons`
 
-| path                    | method   | meaning                               | status    |
-|-------------------------|----------|---------------------------------------|-----------|
-| `/api/pokemons/{slug}`  | `GET`    | get pokemon info as JSON document     | `200`     |
-| `/api/pokemons/{slug}`  | `DELETE` | delete pokemon with given `slug`      | `200`, `204`  |
-| `/api/pokemons/{slug}`  | `PUT`    | full update of pokemon with `slug`    | `200`     |
-| `/api/pokemons/{slug}`  | `PATCH`  | partial update of pokemon with `slug` | `200`     |
-| `/api/pokemons/`        | `POST`   | create new pokemon                    | `201`     |
-| `/api/pokemons/`        | `GET`    | return list of pokemons               | `200`     |
+| path                    | method   | meaning                               | type   | status    |
+|-------------------------|----------|---------------------------------------|--------|-----------|
+| `/api/pokemons/{slug}`  | `GET`    | get pokemon info as JSON document     | detail | `200`        |
+| `/api/pokemons/{slug}`  | `DELETE` | delete pokemon with given `slug`      | delete | `200`, `204` |
+| `/api/pokemons/{slug}`  | `PUT`    | full update of pokemon with `slug`    | update | `200`  |
+| `/api/pokemons/{slug}`  | `PATCH`  | partial update of pokemon with `slug` | update | `200`  |
+| `/api/pokemons/`        | `POST`   | create new pokemon                    | create | `201`  |
+| `/api/pokemons/`        | `GET`    | return list of pokemons               | list   | `200`  |
 
 
-### Resource Users
+### Resource `users`
 
 | path            | method   | meaning                        |
 |-----------------|----------|--------------------------------|

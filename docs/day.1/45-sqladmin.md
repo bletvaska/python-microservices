@@ -3,11 +3,13 @@
 Ak chceme pracovať s údajmi uloženými v databáze, musíme sa k databáze pripojiť z našej aplikácie. V tomto kroku 
 preto vytvoríme spojenie s databázou spolu s jednoduchým admin rozhraním z modulu SQLAlchemy Admin. 
 
-## Instalacia
+
+## Inštalácia
 
 ```bash
 $ poetry add sqladmin
 ```
+
 
 ## Spojenie s databázou
 
