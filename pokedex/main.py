@@ -1,3 +1,5 @@
+import math
+
 import uvicorn as uvicorn
 from fastapi import FastAPI, HTTPException
 from sqladmin import Admin
@@ -15,16 +17,24 @@ admin.add_view(PokemonAdmin)
 
 
 @app.get('/api/pokemons')
-def get_list_of_pokemons(classification: str = None):
+def get_list_of_pokemons(classification: str = None, offset: int = 0, page_size: int = 10):
+    pokemons_total = 801
+
     with Session(engine) as session:
-        statement = select(Pokemon)
+        statement = select(Pokemon).offset(offset * page_size).limit(page_size)
 
         if classification is not None:
             statement = statement.where(Pokemon.classification == classification)
 
         pokemons = session.exec(statement).all()
 
-    return pokemons
+    return {
+        'first': f'/api/pokemons?page_size={page_size}',
+        'previous': f'/api/pokemons?page_size={page_size}&offset={offset - 1}',
+        'next': f'/api/pokemons?page_size={page_size}&offset={offset + 1}',
+        'last': f'/api/pokemons?page_size={page_size}&offset={math.ceil(pokemons_total / page_size)}',
+        'results': pokemons
+    }
 
 
 @app.get('/api/pokemons/{pokedex_number}')
@@ -40,16 +50,6 @@ def get_list_of_pokemons(pokedex_number: int):
             )
 
     return pokemon
-
-
-@app.get('/')
-def homepage():
-    """
-    Returns homepage.
-    """
-    return {
-        "message": "hello world"
-    }
 
 
 if __name__ == '__main__':
