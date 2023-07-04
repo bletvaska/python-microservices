@@ -30,18 +30,18 @@ nase REST API bude pouzivat prefix `/api/v1/`
 
 ### Resource Users
 
-| path            | method   | meaning |
-|-----------------|----------|---------|
-| `/users/`       | `GET`    | retrieve list of users |
+| path            | method   | meaning                        |
+|-----------------|----------|--------------------------------|
+| `/users/`       | `GET`    | retrieve list of users         |
 | `/users/{slug}` | `GET`    | retrieve info about given user |
-| `/users/`       | `POST`   | create new user |
-| `/users/{slug}` | `DELETE` | delete existing user |
-| `/users/me`     | `GET`    | shows my profile |
+| `/users/`       | `POST`   | create new user                |
+| `/users/{slug}` | `DELETE` | delete existing user           |
+| `/users/me`     | `GET`    | shows my profile               |
 
 
 ### Others
 
-| path            | method | meaning |
-|-----------------|--------|---------|
-| `/`             | `GET`  | show homepage |
+| path            | method | meaning             |
+|-----------------|--------|---------------------|
+| `/`             | `GET`  | show homepage       |
 | `/cron/`        | `GET`  | starts maintainance |

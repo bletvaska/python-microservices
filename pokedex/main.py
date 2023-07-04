@@ -14,6 +14,11 @@ admin = Admin(app, engine)
 admin.add_view(PokemonAdmin)
 
 
+@app.get('/api/pokemons')
+def get_list_of_pokemons():
+    return ['pikachu', 'rajchu', 'bulbasaur']
+
+
 @app.get('/')
 def homepage():
     """
