@@ -1,0 +1,85 @@
+{% extends "base.tpl.html" %}
+
+{% block content %}
+<div class="container text-center">
+
+  <div id="carousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <a href="http://www.namakanyden.sk/">
+          <img src="/static/images/banner-namakany.den.png" class="d-block w-100" alt="Namakaný deň Logo">
+        </a>
+        <div class="carousel-caption d-none d-md-block" style="color: black">
+          <p>
+            <a href="http://www.namakanyden.sk/">Namakaný deň</a> ponúka namakané webináre, workshopy a podujatia.
+          </p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <a href="https://fastapi.tiangolo.com/">
+          <img src="/static/images/banner-fastapi.png" class="d-block w-100" alt="FastAPI Logo">
+        </a>
+        <div class="carousel-caption d-none d-md-block" style="color: black">
+          <p>
+            <a href="https://fastapi.tiangolo.com/">FastAPI</a> framework, high performance, easy to learn, fast to
+            code, ready for production.
+          </p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <a href="https://sqlmodel.tiangolo.com/">
+          <img src="/static/images/banner-sqlmodel.png" class="d-block w-100" alt="SQLModel">
+        </a>
+        <div class="carousel-caption d-none d-md-block" style="color: black">
+          <p>
+            <a href="https://sqlmodel.tiangolo.com/">SQLModel</a>, SQL databases in Python, designed for simplicity,
+            compatibility, and robustness.
+          </p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <a href="https://www.pokemon.com/us/pokedex/">
+          <img src="/static/images/banner-pokedex.png" class="d-block w-100" alt="Pokédex">
+        </a>
+        <div class="carousel-caption d-none d-md-block">
+          <p>
+            <a href="https://www.pokemon.com/us/pokedex/">The Pokédex</a> is an electronic device designed to catalog
+            and provide information regarding the various
+            species of Pokémon.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div>
+      <h4>Find Pokémon by it's name or number:</h4>
+      {% include "searchbar.tpl.html" %}
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

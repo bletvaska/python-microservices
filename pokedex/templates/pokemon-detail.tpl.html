@@ -1,0 +1,42 @@
+{% extends "base.tpl.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <h1>{{ pokemon.name }} #{{ pokemon.pokedex_number }}</h1>
+
+    <div class="row justify-content-start">
+        <div class="col-6">
+            <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/{{ "%03d" | format(pokemon.pokedex_number) }}.png" 
+                title="{{ pokemon.name }}" alt="{{ pokemon.name }}" class="text-bg-light"/>
+        </div>
+
+        <div class="col-6">
+            
+                <div class="card text-bg-primary">
+                    <div class="card-body">
+                        <div class="mb-6">
+                            <b>Height</b><br/>
+                            {{ pokemon.height }} m
+                        </div>
+                        <div class="mb-6">
+                            <b>Weight</b><br/>
+                            {{ pokemon.weight }} kg
+                        </div>
+                        <div class="mb-6">
+                            <b>Classification</b><br/>
+                            {{ pokemon.classification }}
+                        </div>
+
+                        <div class="mb-6">
+                            <b>Abilities</b><br/>
+                            {% for a in pokemon.abilities %}
+                                {{ a }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
