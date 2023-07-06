@@ -62,6 +62,21 @@ def delete_pokemon(pokedex_number: int, session: Session = Depends(get_session))
     session.commit()
 
 
+@router.post('/api/pokemons/', status_code=201)
+def create_pokemon(pokedex_number: int = Form(),
+                   name: str = Form(),
+                   weight: float = Form(),
+                   height: float = Form(),
+                   type1: str = Form(),
+                   type2: str = Form(),
+                   classification: str = Form(),
+                   session: Session = Depends(get_session)):
+    pokemon = Pokemon(name=name, pokedex_number=pokedex_number,
+                      weight=weight, height=height, type1=type1, type2=type2,
+                      classification=classification)
+    return pokemon
+
+
 def _get_pokemon_by_id(pokedex_number: int, session: Session):
     statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
     pokemon = session.exec(statement).one_or_none()
