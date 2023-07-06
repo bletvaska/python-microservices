@@ -12,6 +12,7 @@ zabalíme do Docker obrazu a pripravíme ju na použitie v klastri.
 
 Znalosť jazyka Python na tomto školení je nutná.
 
+
 ## Preberané témy
 
 * dizajn vytváraného REST API
@@ -22,9 +23,9 @@ Znalosť jazyka Python na tomto školení je nutná.
 * modul Faker pre vytváranie testovacích údajov
 * ORM modul [SQLModel](https://sqlmodel.tiangolo.com) pre zabezpečenie perzistencie údajov do databázy
 * modul pathlib
-* kontrola stavu mikroslužby (healthcheck)
 * ošetrovanie chýb
 * spracovanie konfigurácie pomocou `.env` súborov
 * šablónovací systém [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
+* kontrola stavu mikroslužby (healthcheck)
 * zbieranie metrík
 * balenie Python aplikácií do Docker obrazov

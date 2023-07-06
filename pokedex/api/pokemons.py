@@ -1,5 +1,5 @@
 import fastapi
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, Form
 from fastapi_pagination.links import LimitOffsetPage
 from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import Session, select
@@ -34,4 +34,28 @@ def get_pokemon_detail(pokedex_number: int,
             detail=f'Pokémon with pokédex number {pokedex_number} not found.',
         )
 
+    return pokemon
+
+
+@router.patch('/api/pokemons/{pokedex_number}')
+def partial_update_pokemon(pokedex_number: int,
+                           name: str = Form(None),
+                           weight: float = Form(None),
+                           height: float = Form(None),
+                           session: Session = Depends(get_session)):
+
+    # select pokemon with pokedex number
+    statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
+    pokemon = session.exec(statement).one_or_none()
+
+    if pokemon is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f'Pokémon with pokédex number {pokedex_number} not found.',
+        )
+
+
+    # update pokemon with new attributes
+
+    # return
     return pokemon
