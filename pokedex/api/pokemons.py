@@ -36,6 +36,19 @@ def partial_update_pokemon(pokedex_number: int,
     pokemon = _get_pokemon_by_id(pokedex_number, session)
 
     # update pokemon with new attributes
+    if name is not None:
+        pokemon.name = name
+
+    if weight is not None:
+        pokemon.weight = weight
+
+    if height is not None:
+        pokemon.height = height
+
+    # update db entry
+    session.add(pokemon)
+    session.commit()
+    session.refresh(pokemon)
 
     # return
     return pokemon
