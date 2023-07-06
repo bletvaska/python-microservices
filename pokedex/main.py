@@ -5,9 +5,9 @@ from fastapi import FastAPI, Request
 from fastapi_pagination import add_pagination
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from sqladmin import Admin
 from sqlmodel import create_engine
-from starlette.templating import Jinja2Templates
 
 from pokedex.api.pokemons import router as pokemons_router
 from pokedex.dependencies import get_settings
@@ -28,7 +28,8 @@ admin.add_view(PokemonAdmin)
 @app.get('/', response_class=HTMLResponse)
 def homepage(request: Request):
     context = {
-        'request': request
+        'request': request,
+        'title': 'Pokédex',
     }
     return templates.TemplateResponse('home.tpl.html', context)
 
