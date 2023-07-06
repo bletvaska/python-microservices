@@ -29,9 +29,18 @@ admin.add_view(PokemonAdmin)
 def homepage(request: Request):
     context = {
         'request': request,
-        'title': 'Pokédex',
+        'title': 'Vitajte | Pokédex',
     }
     return templates.TemplateResponse('home.tpl.html', context)
+
+
+@app.get('/pokedex', response_class=HTMLResponse)
+def view_list_of_pokemons(request: Request):
+    context = {
+        'request': request,
+        'title': 'Všetci Pokémoni na jednom mieste | Pokédex'
+    }
+    return templates.TemplateResponse('pokemon-list.tpl.html', context)
 
 
 if __name__ == '__main__':
