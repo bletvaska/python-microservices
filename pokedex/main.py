@@ -16,17 +16,17 @@ from pokedex.dependencies import get_settings, get_session, get_jinja
 from pokedex.models.pokemon import PokemonAdmin, Pokemon
 
 app = FastAPI()
-app.include_router(pokemons_router)
-app.include_router(homepage_router)
-
-add_pagination(app)
 app.mount('/static',
           StaticFiles(directory=Path(__file__).parent / 'static'),
           name='static')
 
-# db engine
-engine = create_engine(get_settings().db_uri)
-admin = Admin(app, engine)
+# routes
+app.include_router(pokemons_router)
+app.include_router(homepage_router)
+add_pagination(app)
+
+# sql admin
+admin = Admin(app, create_engine(get_settings().db_uri))
 admin.add_view(PokemonAdmin)
 
 
