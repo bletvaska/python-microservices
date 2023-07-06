@@ -12,7 +12,8 @@ from pokedex.api.pokemons import router as pokemons_router
 from pokedex.dependencies import get_settings
 from pokedex.models.pokemon import PokemonAdmin
 from pokedex.views.homepage import router as homepage_router
-from pokedex.views.list_pokemons import router as list_pokemons_router
+from pokedex.views.pokemon_list import router as pokemon_list_router
+from pokedex.views.pokemon_detail import router as pokemon_detail_router
 
 app = FastAPI()
 app.mount('/static',
@@ -22,7 +23,8 @@ app.mount('/static',
 # routes
 app.include_router(pokemons_router)
 app.include_router(homepage_router)
-app.include_router(list_pokemons_router)
+app.include_router(pokemon_list_router)
+app.include_router(pokemon_detail_router)
 add_pagination(app)
 
 # sql admin
