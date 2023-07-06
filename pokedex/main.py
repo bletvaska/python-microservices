@@ -45,8 +45,11 @@ def view_list_of_pokemons(request: Request,
     context = {
         'request': request,
         'title': 'Všetci Pokémoni na jednom mieste | Pokédex',
-        'pokemons': pokemons
+        'pokemons': pokemons,
+        'offset': offset,
+        'page_size': page_size
     }
+
     return templates.TemplateResponse('pokemon-list.tpl.html', context)
 
 

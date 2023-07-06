@@ -46,6 +46,12 @@
             </div>
             {% endfor %}
 
+            <p>
+                <a href="/pokedex?page_size={{ page_size }}&offset={{ offset - 1 }}">previous</a>
+                &nbsp;
+                <a href="/pokedex?page_size={{ page_size }}&offset={{ offset + 1 }}">next</a>
+            </p>
+
         {% else %}
             <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
                 <h2>Pokémon sa nenašiel :-(</h2>
