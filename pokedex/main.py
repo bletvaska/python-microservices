@@ -36,8 +36,10 @@ def homepage(request: Request):
 
 @app.get('/pokedex', response_class=HTMLResponse)
 def view_list_of_pokemons(request: Request,
+                          page_size: int = 20,
+                          offset: int = 0,
                           session: Session = Depends(get_session)):
-    statement = select(Pokemon).limit(20)
+    statement = select(Pokemon).offset(page_size * offset).limit(page_size)
     pokemons = session.exec(statement).all()
 
     context = {
