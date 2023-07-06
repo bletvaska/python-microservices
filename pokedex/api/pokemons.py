@@ -62,7 +62,7 @@ def delete_pokemon(pokedex_number: int, session: Session = Depends(get_session))
     session.commit()
 
 
-@router.post('/api/pokemons/', status_code=201)
+@router.post('/api/pokemons', status_code=201, response_model=Pokemon)
 def create_pokemon(pokedex_number: int = Form(),
                    name: str = Form(),
                    weight: float = Form(),
@@ -71,9 +71,15 @@ def create_pokemon(pokedex_number: int = Form(),
                    type2: str = Form(),
                    classification: str = Form(),
                    session: Session = Depends(get_session)):
-    pokemon = Pokemon(name=name, pokedex_number=pokedex_number,
+    pokemon = Pokemon(id=pokedex_number, name=name, pokedex_number=pokedex_number,
                       weight=weight, height=height, type1=type1, type2=type2,
                       classification=classification)
+
+    # insert entry to db
+    session.add(pokemon)
+    session.commit()
+    session.refresh(pokemon)
+
     return pokemon
 
 
