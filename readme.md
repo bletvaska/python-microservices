@@ -15,17 +15,19 @@ Znalosť jazyka Python na tomto školení je nutná.
 
 ## Preberané témy
 
+* správa projektu pomocou [Poetry](https://python-poetry.org)
 * dizajn vytváraného REST API
 * rámec [FastAPI](https://fastapi.tiangolo.com) na tvorbu REST API
 * modul [Pydantic](https://pydantic.dev) na tvorbu modelov
+* ORM modul [SQLModel](https://sqlmodel.tiangolo.com) pre zabezpečenie perzistencie údajov do databázy
 * stránkovanie výsledkov
 * práca s dátumom a časom
 * modul Faker pre vytváranie testovacích údajov
-* ORM modul [SQLModel](https://sqlmodel.tiangolo.com) pre zabezpečenie perzistencie údajov do databázy
-* modul pathlib
+* modul `pathlib`
 * ošetrovanie chýb
 * spracovanie konfigurácie pomocou `.env` súborov
 * šablónovací systém [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
 * kontrola stavu mikroslužby (healthcheck)
 * zbieranie metrík
 * balenie Python aplikácií do Docker obrazov
+* vytvorenie balíka

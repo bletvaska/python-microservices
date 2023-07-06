@@ -2,6 +2,7 @@ import fastapi
 from fastapi import HTTPException, Depends, Form
 from fastapi_pagination.links import LimitOffsetPage
 from fastapi_pagination.ext.sqlmodel import paginate
+from fastapi.responses import JSONResponse
 from sqlmodel import Session, select
 
 from pokedex.dependencies import get_session
@@ -52,6 +53,13 @@ def partial_update_pokemon(pokedex_number: int,
 
     # return
     return pokemon
+
+
+@router.delete('/api/pokemons/{pokedex_number}', status_code=204)
+def delete_pokemon(pokedex_number: int, session: Session = Depends(get_session)):
+    pokemon = _get_pokemon_by_id(pokedex_number, session)
+    session.delete(pokemon)
+    session.commit()
 
 
 def _get_pokemon_by_id(pokedex_number: int, session: Session):
