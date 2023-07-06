@@ -5,8 +5,8 @@ from fastapi_pagination.ext.sqlmodel import paginate
 from fastapi.responses import JSONResponse
 from sqlmodel import Session, select
 
-from pokedex.dependencies import get_session
-from pokedex.models.pokemon import Pokemon
+from weather.dependencies import get_session
+from weather.models.pokemon import Pokemon
 
 router = fastapi.APIRouter()
 

@@ -17,7 +17,7 @@
                     </a>
 
                     <div class="card-body pokemon-info">
-                        {# pokemon's name and pokedex number #}
+                        {# pokemon's name and weather number #}
                         <p class="card-text pokemon-pokedex-nmber">
                             <small class="text-muted">#{{ "%03d" | format(pokemon.pokedex_number) }}</small>
                         </p>
@@ -47,9 +47,9 @@
             {% endfor %}
 
             <p>
-                <a href="/pokedex?page_size={{ page_size }}&offset={{ offset - 1 }}">previous</a>
+                <a href="/weather?page_size={{ page_size }}&offset={{ offset - 1 }}">previous</a>
                 &nbsp;
-                <a href="/pokedex?page_size={{ page_size }}&offset={{ offset + 1 }}">next</a>
+                <a href="/weather?page_size={{ page_size }}&offset={{ offset + 1 }}">next</a>
             </p>
 
         {% else %}

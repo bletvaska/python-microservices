@@ -5,13 +5,13 @@
 nasledne mozeme aplikaciu spustit prikazom z korenoveho priecinku projektu
 
 ```bash
-$ uvicorn pokedex.main:app --reload
+$ uvicorn weather.main:app --reload
 ```
 
 alebo ako modul:
 
 ```bash
-$ python -m pokedex.main
+$ python -m weather.main
 ```
 
 
@@ -29,7 +29,7 @@ mozem pridat spustac priamo pre FastAPI, ktoremu VS Code rozumie. vysledok bude 
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "pokedex.main:app"
+                "weather.main:app"
             ],
             "jinja": true,
             "justMyCode": true
@@ -48,7 +48,7 @@ alebo univerzalne mozeme vytvorit spustac pre Python modul:
             "name": "Python: Module",
             "type": "python",
             "request": "launch",
-            "module": "pokedex.main",
+            "module": "weather.main",
             "justMyCode": true
         }
     ]

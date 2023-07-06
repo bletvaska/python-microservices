@@ -3,8 +3,8 @@ from fastapi.responses import HTMLResponse
 from sqlmodel import Session, select
 from fastapi.templating import Jinja2Templates
 
-from pokedex.dependencies import get_session, get_jinja
-from pokedex.models.pokemon import Pokemon
+from weather.dependencies import get_session, get_jinja
+from weather.models.pokemon import Pokemon
 
 router = APIRouter()
 

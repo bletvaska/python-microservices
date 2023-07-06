@@ -2,7 +2,7 @@ from fastapi import Request, APIRouter, Depends
 from fastapi.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
 
-from pokedex.dependencies import get_jinja
+from weather.dependencies import get_jinja
 
 router = APIRouter()
 

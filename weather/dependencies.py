@@ -4,7 +4,7 @@ from pathlib import Path
 from sqlmodel import Session, create_engine
 from fastapi.templating import Jinja2Templates
 
-from pokedex.models.settings import Settings
+from weather.models.settings import Settings
 
 
 def get_session() -> Session:

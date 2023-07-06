@@ -23,7 +23,7 @@ $ poetry add --group dev litecli
 spustenie:
 
 ```bash
-$ litecli pokedex.sqlite
+$ litecli weather.sqlite
 ```
 
 

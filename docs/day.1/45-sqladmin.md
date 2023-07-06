@@ -21,7 +21,7 @@ Do súboru `main.py` preto vložíme nasledovný fragment kódu:
 from sqlmodel import create_engine
 
 # db engine
-engine = create_engine('sqlite:///pokedex.sqlite')
+engine = create_engine('sqlite:///weather.sqlite')
 ```
 
 
@@ -34,7 +34,7 @@ rozhranie riadkom:
 from sqladmin import Admin
 from sqlmodel import create_engine
 
-engine = create_engine("sqlite:///pokedex.sqlite")
+engine = create_engine("sqlite:///weather.sqlite")
 admin = Admin(app, engine)
 ```
 
@@ -71,7 +71,7 @@ Aby všetko fungovalo, potrebujeme admin model pridať do aplikácie:
 ```python
 from models import PokemonAdmin
 
-engine = create_engine("sqlite:///pokedex.sqlite")
+engine = create_engine("sqlite:///weather.sqlite")
 admin = Admin(app, engine)
 admin.add_view(PokemonAdmin)
 ```

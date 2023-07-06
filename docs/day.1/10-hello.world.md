@@ -31,7 +31,7 @@ def hello():
 
 
 def main():
-    uvicorn.run('fishare.main:app', reload=True,
+    uvicorn.run('weather.main:app', reload=True,
                 host='127.0.0.1', port=8000)
 
 if __name__ == '__main__':

@@ -36,10 +36,10 @@ class Pokemon(BaseModel):
 Na základe vytvoreného modelu môžeme vytvoriť Pokémona:
 
 ```python
-from pokedex.models.pokemon import Pokemon
+from weather.models.pokemon import Pokemon
 
 pokemon = Pokemon(
-    name='Pikachu', 
+    name='Pikachu',
     classification='Mouse Pokémon',
     type1='electric',
     type2=None,
