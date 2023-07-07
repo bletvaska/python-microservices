@@ -12,7 +12,7 @@ class Pokemon(SQLModel, table=True):
     height: float | None  # vyska
     pokedex_number: int  # id pokemona v pokedexe
     classification: str
-    abilities: list[str] = []
+    # abilities: list[str] = []
 
     # @validator('abilities', always=True)
     # def set_abilities(cls, v):
