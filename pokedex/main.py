@@ -9,6 +9,7 @@ from fastapi_pagination import add_pagination
 from sqladmin import Admin
 from sqlmodel import create_engine
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette_prometheus import PrometheusMiddleware, metrics
 
 from pokedex.api.pokemons import router as pokemons_router
 from pokedex.dependencies import get_settings
@@ -26,8 +27,10 @@ app.mount('/static',
 
 # middleware
 app.add_middleware(BaseHTTPMiddleware, dispatch=add_process_time_to_header)
+app.add_middleware(PrometheusMiddleware)
 
 # routes
+app.add_route('/metrics', metrics)
 app.include_router(pokemons_router)
 app.include_router(homepage_router)
 app.include_router(pokemon_list_router)
