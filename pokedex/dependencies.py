@@ -10,7 +10,9 @@ from pokedex.models.settings import Settings
 def get_session() -> Session:
     engine = create_engine(get_settings().db_uri)
     with Session(engine) as session:
+        print('>> db connection created')
         yield session
+        print('>> db connection closed')
 
 
 @lru_cache

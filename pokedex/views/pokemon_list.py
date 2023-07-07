@@ -1,6 +1,6 @@
 from fastapi import Request, Depends, APIRouter
 from fastapi.responses import HTMLResponse
-from sqlmodel import Session, select
+from sqlmodel import Session, select, or_
 from fastapi.templating import Jinja2Templates
 
 from pokedex.dependencies import get_session, get_jinja
@@ -13,9 +13,17 @@ router = APIRouter()
 def view_list_of_pokemons(request: Request,
                           page_size: int = 20,
                           offset: int = 0,
+                          query: str | None = None,
                           session: Session = Depends(get_session),
                           jinja: Jinja2Templates = Depends(get_jinja)):
+
     statement = select(Pokemon).offset(page_size * offset).limit(page_size)
+    if query is not None:
+        statement = statement.where(or_(
+            Pokemon.name.ilike(f'%{query}%'),
+            Pokemon.pokedex_number == query
+        ))
+
     pokemons = session.exec(statement).all()
 
     context = {

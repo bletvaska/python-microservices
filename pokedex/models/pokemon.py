@@ -1,4 +1,4 @@
-from pydantic import validator
+from pydantic import validator, root_validator
 from sqladmin import ModelView
 from sqlmodel import SQLModel, Field
 
@@ -14,11 +14,11 @@ class Pokemon(SQLModel, table=True):
     classification: str
     abilities: list[str] = []
 
-    @validator('abilities', always=True)
-    def set_abilities(cls, v):
-        print('>>> validating')
-        import ast
-        return ast.literal_eval(v)
+    # @validator('abilities', always=True)
+    # def set_abilities(cls, v):
+    #     print('>>> validating')
+    #     import ast
+    #     return ast.literal_eval(v)
 
 
 class PokemonAdmin(ModelView, model=Pokemon):

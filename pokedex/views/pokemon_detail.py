@@ -16,9 +16,6 @@ def pokemon_detail(request: Request, pokedex_number: int,
     # get model
     statement = select(Pokemon).where(Pokemon.pokedex_number == pokedex_number)
     pokemon: Pokemon = session.exec(statement).one_or_none()
-    print(type(pokemon.abilities))
-    # Pokemon.validate(pokemon)
-    # pokemon.validate('abilities')
 
     context = {
         'request': request,
