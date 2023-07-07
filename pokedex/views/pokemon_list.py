@@ -16,8 +16,12 @@ def view_list_of_pokemons(request: Request,
                           query: str | None = None,
                           session: Session = Depends(get_session),
                           jinja: Jinja2Templates = Depends(get_jinja)):
+    statement = (
+        select(Pokemon)
+        .offset(page_size * offset)
+        .limit(page_size)
+    )
 
-    statement = select(Pokemon).offset(page_size * offset).limit(page_size)
     if query is not None:
         statement = statement.where(or_(
             Pokemon.name.ilike(f'%{query}%'),
