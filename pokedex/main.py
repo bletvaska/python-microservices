@@ -8,9 +8,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi_pagination import add_pagination
 from sqladmin import Admin
 from sqlmodel import create_engine
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from pokedex.api.pokemons import router as pokemons_router
 from pokedex.dependencies import get_settings
+from pokedex.middleware import add_process_time_to_header
 from pokedex.models.pokemon import PokemonAdmin
 from pokedex.views.homepage import router as homepage_router
 from pokedex.views.pokemon_list import router as pokemon_list_router
@@ -21,6 +23,9 @@ app = FastAPI()
 app.mount('/static',
           StaticFiles(directory=Path(__file__).parent / 'static'),
           name='static')
+
+# middleware
+app.add_middleware(BaseHTTPMiddleware, dispatch=add_process_time_to_header)
 
 # routes
 app.include_router(pokemons_router)
