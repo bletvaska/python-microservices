@@ -13,6 +13,6 @@ python = "^3.12"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.scripts]
-pokedex="weather.main:main"  # python -m weather.main
+#[tool.poetry.scripts]
+#pokedex="weather.main:main"  # python -m weather.main
 
