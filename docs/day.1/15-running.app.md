@@ -14,6 +14,15 @@ alebo ako modul:
 $ python -m pokedex.main
 ```
 
+## Running with PyCharm
+
+* `Run > Edit Configurations...`
+* `+ > Python`
+* Name: Run Microservice
+   module: `weather.main`
+   parameters: --reload
+   modify options: Emulate terminal in output console
+
 
 ## Running with Visual Studio Code
 

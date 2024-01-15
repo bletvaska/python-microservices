@@ -19,6 +19,7 @@ aby sme sa zbytocne nezdrziavali, pouzijeme rovno kostru aplikacie so vsetkym po
 vlozte tento kod:
 
 ```python
+import uvicorn
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -30,7 +31,7 @@ def hello():
 
 
 def main():
-   uvicorn.run('fishare.main:app', reload=True,
+   uvicorn.run('weather.main:app', reload=True,
                host='127.0.0.1', port=8000)
 
 
