@@ -2,6 +2,7 @@
 
 import uvicorn
 from fastapi import FastAPI
+import httpx
 
 app = FastAPI()
 
@@ -9,6 +10,13 @@ app = FastAPI()
 @app.get("/")
 def hello():
     return "Hello, World!"
+
+
+@app.get('/weather')
+def get_weather():
+    print('>> get weather')
+    response = httpx.get('https://api.openweathermap.org/data/2.5/weather?q=kosice&appid=9e547051a2a00f2bf3e17a160063002d')
+    return response
 
 
 def main():
