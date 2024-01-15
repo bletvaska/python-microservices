@@ -4,19 +4,18 @@ rámec FastAPI, vlastnosti, inštalácia, prvé použitie
 
 * [porovnanie s inými rámcami a technológiami](https://www.techempower.com/benchmarks/#section=data-r20&hw=ph&test=query&l=v2p4an-db&a=2)
 
-
 ## Inštalácia
 
-Ramec FastAPI nainstalujeme pomocou nastroja `poetry`. Okrem neho vsak budeme potrebovat aj ASGI server `uvicorn`. Oba baliky nainstalujeme prikazom:
+Ramec FastAPI nainstalujeme pomocou nastroja `poetry`. Okrem neho vsak budeme potrebovat aj ASGI server `uvicorn`. Oba
+baliky nainstalujeme prikazom:
 
 ```bash
 $ poetry add fastapi uvicorn[standard]
 ```
 
-
 ## Hello World!
 
-aby sme sa zbytocne nezdrziavali, pouzijeme rovno kostru aplikacie so vsetkym potrebnym. do svojho modulu `main.py` 
+aby sme sa zbytocne nezdrziavali, pouzijeme rovno kostru aplikacie so vsetkym potrebnym. do svojho modulu `main.py`
 vlozte tento kod:
 
 ```python
@@ -27,24 +26,24 @@ app = FastAPI()
 
 @app.get("/")
 def hello():
-    return "Hello, World!"
+   return "Hello, World!"
 
 
 def main():
-    uvicorn.run('fishare.main:app', reload=True,
-                host='127.0.0.1', port=8000)
+   uvicorn.run('fishare.main:app', reload=True,
+               host='127.0.0.1', port=8000)
+
 
 if __name__ == '__main__':
-    main()
+   main()
 ```
 
 Funkciu `hello()` budeme nazývať _path operation_.
 
-
 ## Nastavenie spravneho interpretera
 
-Ak IDE nerozpoznava pouzite balicky (napr. podciarkuje priamo v importe balik `fastapi`), je potrebne zvolit spravny interpreter jazyka Python. Konkretne ten, ktory je pozity v prostredi vytvorenom pomocou nastroja `poetry`.
-
+Ak IDE nerozpoznava pouzite balicky (napr. podciarkuje priamo v importe balik `fastapi`), je potrebne zvolit spravny
+interpreter jazyka Python. Konkretne ten, ktory je pouzity v prostredi vytvorenom pomocou nastroja `poetry`.
 
 ### Zistenie cesty interpretera jazyka Python
 
@@ -52,15 +51,31 @@ zobrazime si zoznam virtualnych prostredi, ktore pre nas projekt existuju:
 
 ```bash
 $ poetry env list
+weather-2v47ikyo-py3.12 (Activated)
 ```
 
 informacie o aktualnom prostredi spolu s cestou veducou k interpreteru, ziskate prikazom
 
 ```bash
 $ poetry env info
+
+Virtualenv
+Python:         3.12.1
+Implementation: CPython
+Path:           /home/mirek/.cache/pypoetry/virtualenvs/weather-2v47ikyo-py3.12
+Executable:     /home/mirek/.cache/pypoetry/virtualenvs/weather-2v47ikyo-py3.12/bin/python
+Valid:          True
+
+System
+Platform:   linux
+OS:         posix
+Python:     3.12.1
+Path:       /usr
+Executable: /usr/bin/python3.12
 ```
 
-v pripade, ze sa nezobrazi ziadne virtualne prostredie, je potrebne ho vytvorit. to je mozne napriklad spustenim shell-u:
+v pripade, ze sa nezobrazi ziadne virtualne prostredie, je potrebne ho vytvorit. to je mozne napriklad spustenim
+shell-u:
 
 ```bash
 $ poetry shell
@@ -72,15 +87,16 @@ nasledne je potrebne nainstalovat vsetky balicky prikazom:
 $ poetry install
 ```
 
-
 ### Visual Studio Code
 
-v pravom dolnom rohu treba kliknut na oznacenie interpreteru jazyka Python a nasledne zvolit cestu veducu k prostrediu, ktore bolo vytvorene pomocou nastroja `poetry`. ak nie je uvedena v zozname, tak treba zvolit polozku na pridanie cesty `+ Enter interpreter path...`.
+v pravom dolnom rohu treba kliknut na oznacenie interpreteru jazyka Python a nasledne zvolit cestu veducu k prostrediu,
+ktore bolo vytvorene pomocou nastroja `poetry`. ak nie je uvedena v zozname, tak treba zvolit polozku na pridanie
+cesty `+ Enter interpreter path...`.
 
 rovnaku ponuku vieme zobrazit cez `Command Palette...` a zadanim polozky `Python: Select Interpreter`.
 
-ak sme vybrali interpreter spravne, nezname balicky prestanu byt podciarknute a rovnako tak zacne fungovat aj automaticke doplnovanie kodu.
-
+ak sme vybrali interpreter spravne, nezname balicky prestanu byt podciarknute a rovnako tak zacne fungovat aj
+automaticke doplnovanie kodu.
 
 ### PyCharm
 
