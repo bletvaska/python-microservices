@@ -13,6 +13,7 @@ httpx = "^0.26.0"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.20.0"
+httpie = "^3.2.2"
 
 [build-system]
 requires = ["poetry-core"]
