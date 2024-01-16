@@ -8,6 +8,8 @@ from fastapi import FastAPI
 import httpx
 from fastapi_restful.tasks import repeat_every
 
+from weather.models import Measurement
+
 app = FastAPI()
 
 
@@ -39,6 +41,23 @@ def retrieve_weather_data():
 
     if response.status_code == http.HTTPStatus.OK:
         logger.info('Saving retrieved data.')
+
+        data = response.json()
+        measurement = Measurement(
+            dt=data['dt'],
+            temperature=data['main']['temp'],
+            humidity=data['main']['humidity'],
+            pressure=data['main']['pressure'],
+            sunrise=data['sys']['sunrise'],
+            sunset=data['sys']['sunset'],
+            country=data['sys']['country'],
+            city=data['name'],
+            wind_speed=data['wind']['speed'],
+            wind_direction=data['wind']['deg'],
+            icon=data['weather'][0]['icon']
+        )
+        print(measurement)
+
         with open('weather.json', 'w') as file:
             json.dump(response.json(), file, indent=2)
     else:
