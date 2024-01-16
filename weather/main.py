@@ -2,6 +2,7 @@
 import http
 import json
 
+from loguru import logger
 import uvicorn
 from fastapi import FastAPI
 import httpx
@@ -17,7 +18,7 @@ def hello():
 
 @app.get('/weather')
 def get_weather():
-    print('>> get weather')
+    logger.info('Getting weather.')
 
     with open('weather.json') as file:
         return json.load(file)
@@ -26,7 +27,7 @@ def get_weather():
 @app.on_event("startup")
 @repeat_every(seconds=20 * 60)
 def retrieve_weather_data():
-    print('>> retrieving')
+    logger.info('Retrieving weather data.')
 
     params = {
         'q': 'kosice',
@@ -40,7 +41,7 @@ def retrieve_weather_data():
         with open('weather.json', 'w') as file:
             json.dump(response.json(), file, indent=2)
     else:
-        print('>> ta status kod je iny ako 200. ta zrob daco.')
+        logger.error(f'Data were not retrieved correctly. HTTP status code is {response.status_code}.')
 
 
 def main():
