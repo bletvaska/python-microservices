@@ -25,11 +25,25 @@ admin.add_view(MeasurementAdmin)
 
 
 @app.get("/get_all")
-def get_all_measurements():
+def get_all_measurements(city: str = None):
     engine = create_engine('sqlite:///database.sqlite')
+
     with Session(engine) as session:
         statement = select(Measurement)
+        if city is not None:
+            statement = statement.where(Measurement.city == city)
+
         return session.exec(statement).all()
+
+
+@app.get('/get_last')
+def get_last_measurement():
+    engine = create_engine('sqlite:///database.sqlite')
+
+    with Session(engine) as session:
+        statement = select(Measurement).order_by(Measurement.id.desc())
+
+        return session.exec(statement).first()
 
 
 @app.get('/weather')

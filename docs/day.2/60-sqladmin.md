@@ -1,7 +1,7 @@
 # SQL Admin
 
-Ak chceme pracovať s údajmi uloženými v databáze, musíme sa k databáze pripojiť z našej aplikácie. V tomto kroku 
-preto vytvoríme spojenie s databázou spolu s jednoduchým admin rozhraním z modulu SQLAlchemy Admin. 
+Ak chceme pracovať s údajmi uloženými v databáze, musíme sa k databáze pripojiť z našej aplikácie. V tomto kroku
+preto vytvoríme spojenie s databázou spolu s jednoduchým admin rozhraním z modulu SQLAlchemy Admin.
 
 
 ## Inštalácia
@@ -27,7 +27,7 @@ engine = create_engine('sqlite:///pokedex.sqlite')
 
 ## Vytvorenie admin rozhrania
 
-Admin rozhranie vytvoríme veľmi jednoducho: pod riadok, v ktorom sme vytvorili objekt `engine` vytvoríme admin 
+Admin rozhranie vytvoríme veľmi jednoducho: pod riadok, v ktorom sme vytvorili objekt `engine` vytvoríme admin
 rozhranie riadkom:
 
 ```python
@@ -41,39 +41,52 @@ admin = Admin(app, engine)
 Ak sme postupovali správne, admin rozhranie bude dostupné v prehliadači na adrese http://localhost:8000/admin
 
 
-## Pokemon Admin Model
+## Measurement Admin Model
 
-V admin rozhraní zatiaľ nič nevidíme. Aby sme v ňom mohli vidieť Pokémonov z databázy, musíme pre ne vytvoriť 
+V admin rozhraní zatiaľ nič nevidíme. Aby sme v ňom mohli vidieť merania z databázy, musíme pre ne vytvoriť
 samostatný model. Do súboru s modelmi preto vytvoríme nový model, ktorým opíšeme, čo a ako sa má v admin rozhraní zobrazovať.
 
-Model nazveme `PokemonAdmin`, bude potomkom triedy `ModelView` a bude opisovať admin rozhranie modelu `Pokemon`. Kód 
+Model nazveme `MeasurementAdmin`, bude potomkom triedy `ModelView` a bude opisovať admin rozhranie modelu `Measurement`. Kód
 bude vyzerať napríklad takto:
 
 ```python
-from sqladmin import ModelView
-
-class PokemonAdmin(ModelView, model=Pokemon):
-    page_size = 20
-    icon = "fa-solid fa-spaghetti-monster-flying"
-    column_searchable_list = [Pokemon.name]
-    column_sortable_list = [Pokemon.name, Pokemon.classification, Pokemon.type1, Pokemon.type2]
+class MeasurementAdmin(ModelView, model=Measurement):
     column_list = [
-        Pokemon.pokedex_number,
-        Pokemon.name,
-        Pokemon.classification,
-        Pokemon.type1,
-        Pokemon.type2
+        Measurement.id,
+        Measurement.dt,
+        Measurement.city,
+        Measurement.temperature,
+        Measurement.humidity,
+        Measurement.pressure,
+        Measurement.sunrise,
+        Measurement.sunset,
     ]
+    icon = "fa-solid fa-temperature-half"
+    column_searchable_list = [
+        Measurement.city,
+        Measurement.country
+    ]
+    column_sortable_list = [
+        Measurement.dt,
+        Measurement.temperature,
+        Measurement.humidity,
+        Measurement.pressure,
+    ]
+    page_size = 50
+    page_size_options = [25, 50, 100, 200]
+    column_labels = {
+        Measurement.dt: 'Measurement Time'
+    }
 ```
 
 Aby všetko fungovalo, potrebujeme admin model pridať do aplikácie:
 
 ```python
-from models import PokemonAdmin
+from models import MeasurementAdmin
 
-engine = create_engine("sqlite:///pokedex.sqlite")
+engine = create_engine("sqlite:///database.sqlite")
 admin = Admin(app, engine)
-admin.add_view(PokemonAdmin)
+admin.add_view(MeasurementAdmin)
 ```
 
 
