@@ -9,9 +9,9 @@ from fastapi import FastAPI
 import httpx
 from fastapi_restful.tasks import repeat_every
 from sqladmin import Admin
-from sqlmodel import create_engine, SQLModel, Session
+from sqlmodel import create_engine, SQLModel, Session, select
 
-from .models import Measurement, MeasurementAdmin
+from weather.models import Measurement, MeasurementAdmin
 
 app = FastAPI()
 
@@ -24,9 +24,12 @@ admin = Admin(app, engine)
 admin.add_view(MeasurementAdmin)
 
 
-@app.get("/")
-def hello():
-    return "Hello, World!"
+@app.get("/get_all")
+def get_all_measurements():
+    engine = create_engine('sqlite:///database.sqlite')
+    with Session(engine) as session:
+        statement = select(Measurement)
+        return session.exec(statement).all()
 
 
 @app.get('/weather')

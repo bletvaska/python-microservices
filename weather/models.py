@@ -43,3 +43,6 @@ class MeasurementAdmin(ModelView, model=Measurement):
     ]
     page_size = 50
     page_size_options = [25, 50, 100, 200]
+    column_labels = {
+        Measurement.dt: 'Measurement Time'
+    }
