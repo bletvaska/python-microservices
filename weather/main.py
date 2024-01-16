@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import http
 import json
 
 import uvicorn
@@ -33,10 +34,13 @@ def retrieve_weather_data():
         'appid': '9e547051a2a00f2bf3e17a160063002d',
         'lang': 'eng'
     }
-    response = httpx.get('https://api.openweathermap.org/data/2.5/weather', params=params)
+    response = httpx.get('https://api.openweathermap.org/data/2.5/weatherx', params=params)
 
-    with open('weather.json', 'w') as file:
-        json.dump(response.json(), file, indent=2)
+    if response.status_code == http.HTTPStatus.OK:
+        with open('weather.json', 'w') as file:
+            json.dump(response.json(), file, indent=2)
+    else:
+        print('>> ta status kod je iny ako 200. ta zrob daco.')
 
 
 def main():

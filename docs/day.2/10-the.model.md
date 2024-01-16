@@ -4,12 +4,10 @@
 ## Čo je to model?
 
 
-## Databáza s Pokémonmi
+## Databáza s meraniami
 
-Databáza s Pokémonmi sa nachádza v súbore `resources/pokedex.sqlite`. Na základe uložených dát vytvoríme model 
-Pokémona, s ktorým budeme pracovať. 
-
-Najprv sa teda pozrieme do samotných dát pomocou konzolového klienta [litecli](https://litecli.com). 
+* SQLite - bude v subore
+* budeme pouzivat konzoloveho klienta [litecli](https://litecli.com).
 
 
 ## LiteCLI
@@ -39,8 +37,8 @@ O každom Pokémonovi nás môžu zaujímať nasledujúce vlastnosti:
 * `name` - meno Pokémona
 * `height` - výška Pokémona
 * `weight` - hmotnosť Pokémona
-* `classification` - 
-* `type1` - 
-* `type2` - 
+* `classification` -
+* `type1` -
+* `type2` -
 
 A z týchto vlastností vytvoríme model.
