@@ -31,3 +31,15 @@ class MeasurementAdmin(ModelView, model=Measurement):
         Measurement.sunset,
     ]
     icon = "fa-solid fa-temperature-half"
+    column_searchable_list = [
+        Measurement.city,
+        Measurement.country
+    ]
+    column_sortable_list = [
+        Measurement.dt,
+        Measurement.temperature,
+        Measurement.humidity,
+        Measurement.pressure,
+    ]
+    page_size = 50
+    page_size_options = [25, 50, 100, 200]
