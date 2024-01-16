@@ -46,14 +46,6 @@ def get_last_measurement():
         return session.exec(statement).first()
 
 
-@app.get('/weather')
-def get_weather():
-    logger.info('Getting weather.')
-
-    with open('weather.json') as file:
-        return json.load(file)
-
-
 @app.on_event("startup")
 @repeat_every(seconds=20 * 60)
 def retrieve_weather_data():
