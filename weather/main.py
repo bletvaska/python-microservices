@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import http
 import json
+import http
 
 from loguru import logger
 import uvicorn
@@ -8,7 +8,7 @@ from fastapi import FastAPI
 import httpx
 from fastapi_restful.tasks import repeat_every
 
-from weather.models import Measurement
+from .models import Measurement
 
 app = FastAPI()
 
