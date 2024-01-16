@@ -7,6 +7,7 @@ import uvicorn
 from fastapi import FastAPI
 import httpx
 from fastapi_restful.tasks import repeat_every
+from sqlmodel import create_engine, SQLModel
 
 from .models import Measurement
 
@@ -65,6 +66,11 @@ def retrieve_weather_data():
 
 
 def main():
+    # create db schema
+    engine = create_engine('sqlite:///database.sqlite')
+    SQLModel.metadata.create_all(engine)
+
+    # run service
     uvicorn.run('weather.main:app', reload=True, host='127.0.0.1', port=8000)
 
 

@@ -19,6 +19,7 @@ sqlmodel = "^0.0.14"
 ipython = "^8.20.0"
 httpie = "^3.2.2"
 rich = "^13.7.0"
+litecli = "^1.10.0"
 
 [build-system]
 requires = ["poetry-core"]
