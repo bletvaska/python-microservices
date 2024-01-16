@@ -2,12 +2,13 @@
 import json
 import http
 
+import pendulum
 from loguru import logger
 import uvicorn
 from fastapi import FastAPI
 import httpx
 from fastapi_restful.tasks import repeat_every
-from sqlmodel import create_engine, SQLModel
+from sqlmodel import create_engine, SQLModel, Session
 
 from .models import Measurement
 
@@ -41,26 +42,28 @@ def retrieve_weather_data():
     response = httpx.get('https://api.openweathermap.org/data/2.5/weather', params=params)
 
     if response.status_code == http.HTTPStatus.OK:
-        logger.info('Saving retrieved data.')
-
         data = response.json()
         measurement = Measurement(
-            dt=data['dt'],
+            dt=pendulum.from_timestamp(data['dt']),
             temperature=data['main']['temp'],
             humidity=data['main']['humidity'],
             pressure=data['main']['pressure'],
-            sunrise=data['sys']['sunrise'],
-            sunset=data['sys']['sunset'],
+            sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
+            sunset=pendulum.from_timestamp(data['sys']['sunset']),
             country=data['sys']['country'],
             city=data['name'],
             wind_speed=data['wind']['speed'],
             wind_direction=data['wind']['deg'],
             icon=data['weather'][0]['icon']
         )
-        print(measurement)
 
-        with open('weather.json', 'w') as file:
-            json.dump(response.json(), file, indent=2)
+        engine = create_engine('sqlite:///database.sqlite')
+        with Session(engine) as session:
+            session.add(measurement)
+            session.commit()
+
+        logger.info('Measurement successfully stored.')
+
     else:
         logger.error(f'Data were not retrieved correctly. HTTP status code is {response.status_code}.')
 
