@@ -35,9 +35,10 @@ def retrieve_weather_data():
         'appid': '9e547051a2a00f2bf3e17a160063002d',
         'lang': 'eng'
     }
-    response = httpx.get('https://api.openweathermap.org/data/2.5/weatherx', params=params)
+    response = httpx.get('https://api.openweathermap.org/data/2.5/weather', params=params)
 
     if response.status_code == http.HTTPStatus.OK:
+        logger.info('Saving retrieved data.')
         with open('weather.json', 'w') as file:
             json.dump(response.json(), file, indent=2)
     else:

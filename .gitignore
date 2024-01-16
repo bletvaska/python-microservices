@@ -114,3 +114,4 @@ report.html
 .env
 *sqlite
 storage
+*.json
