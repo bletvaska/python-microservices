@@ -11,17 +11,16 @@ Nemôžeme vracať všetky záznamy
 * množstvo získaných dát bude rásť s pribúdajúcim počtom položiek
 * veľmi jednoducho by sme vedeli zabezpečiť DOS útok
 
-
 ## Stránkovanie v rámci Django
 
 ```json
 {
-    "count": 4321,
-    "next": "http://app.com/users/?page=2",
-    "previous": null,
-    "results": [
-        ...
-    ]
+   "count": 4321,
+   "next": "http://app.com/users/?page=2",
+   "previous": null,
+   "results": [
+      ...
+   ]
 }
 ```
 
@@ -43,13 +42,18 @@ následne upravíme dopyt:
 
 ```python
 statement = (
-     select(Measurement)
-     .offset((page - 1) * page_size)
-     .limit(page_size)
+   select(Measurement)
+   .offset((page - 1) * page_size)
+   .limit(page_size)
 )
 results = session.exec(statement).all()
 ```
 
+a pouzijeme:
+
+```bash
+$ http "http://localhost:8000/api/measurements?page=5&page_size=10"
+```
 
 ## Využitie rozšírenia
 
@@ -67,8 +71,14 @@ Rozšírenie ponúka viacero spôsobov, ako pracovať so stránkovaním, ako nap
   stránkovať
 * stránkovanie s odkazmi - stránkovanie s odkazmi na nasledujúcu, predchádzajúcu, prvú, poslednú a aktuálnu stránku
 
-
 ## Code Update
+
+Dokumentacia upozornuje, ze je potrebne objekt aplikacie `FastAPI` zabalit do volania funkcie `add_pagination()`. Takze
+v module `main.py` pridame riadok:
+
+```python
+add_pagination(app)
+```
 
 Použijeme stránkovanie s odkazmi a adekvátne upravíme kód funkcie `get_list_of_pokemons()`.
 
@@ -76,7 +86,9 @@ Najprv upravíme typ modelu odpovede v dekorátori funkcie. Použijeme `LimitOff
 
 ```python
 from fastapi_pagination.links import LimitOffsetPage
-@router.get('/api/pokemons', response_model=LimitOffsetPage[Pokemon])
+
+
+@router.get('/api/measurements', response_model=LimitOffsetPage[Measurement])
 ```
 
 Keďže používame ORM, potrebujeme použiť správnu funkciu `paginate()` pre naše ORM. V našom prípade, keďže používame
@@ -90,16 +102,18 @@ Následne upravíme kód funkcie a zavoláme funkciu `paginate()`. Jej parametro
 vykonanie SQL dopytu.
 
 ```python
-from fastapi_pagination.links import LimitOffsetPage
+from fastapi_pagination.links import Page
 from fastapi_pagination.ext.sqlmodel import paginate
 
-@router.get('/api/pokemons', response_model=LimitOffsetPage[Pokemon])
-def list(classification: str = None,
-         session: Session = Depends(get_session)):
-    statement = select(Pokemon)
 
-    if classification is not None:
-        statement = statement.where(Pokemon.classification == classification)
+@router.get('/api/measurements', response_model=Page[Measurement])
+def list_measurements(session: Session = Depends(get_session)):
+   statement = select(Measurements)
+   return paginate(session, statement)
+```
 
-    return paginate(session, statement)
+Nasledne mozeme vyskusat:
+
+```bash
+$ http "http://localhost:8000/api/measurements"
 ```

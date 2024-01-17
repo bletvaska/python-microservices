@@ -19,3 +19,8 @@ def list_of_measurements(session: Session = Depends(get_session)):
 def get_last_measurement(session: Session = Depends(get_session)):
     statement = select(Measurement).order_by(Measurement.id.desc())
     return session.exec(statement).first()
+
+
+# MeasurementOut -> pridat linku na zaznam
+# * vytvorit
+# pridat parametre do /measurements na ziskanie zaznamov v danom casovom rozsahu
