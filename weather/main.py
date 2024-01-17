@@ -8,41 +8,24 @@ from fastapi import FastAPI
 import httpx
 from fastapi_restful.tasks import repeat_every
 from sqladmin import Admin
-from sqlmodel import create_engine, SQLModel, Session, select
+from sqlmodel import create_engine, SQLModel, Session
 
+from weather.api.measurements import router as measurements_router
 from weather.models.measurement import Measurement, MeasurementAdmin
+from weather.models.settings import Settings
 
 app = FastAPI()
+app.include_router(measurements_router)
+
+settings = Settings()
 
 # create db schema
-engine = create_engine('sqlite:///database.sqlite')
+engine = create_engine(settings.db_uri)
 SQLModel.metadata.create_all(engine)
 
 # admin ui
 admin = Admin(app, engine)
 admin.add_view(MeasurementAdmin)
-
-
-@app.get("/api/measurements")
-def get_all_measurements(city: str = None):
-    engine = create_engine('sqlite:///database.sqlite')
-
-    with Session(engine) as session:
-        statement = select(Measurement)
-        if city is not None:
-            statement = statement.where(Measurement.city == city)
-
-        return session.exec(statement).all()
-
-
-@app.get('/api/measurements/last')
-def get_last_measurement():
-    engine = create_engine('sqlite:///database.sqlite')
-
-    with Session(engine) as session:
-        statement = select(Measurement).order_by(Measurement.id.desc())
-
-        return session.exec(statement).first()
 
 
 @app.on_event("startup")
@@ -53,7 +36,7 @@ def retrieve_weather_data():
     params = {
         'q': 'kosice',
         'units': 'metric',
-        'appid': '9e547051a2a00f2bf3e17a160063002d',
+        'appid': settings.api_token,
         'lang': 'en'
     }
     response = httpx.get('https://api.openweathermap.org/data/2.5/weather', params=params)
@@ -74,7 +57,7 @@ def retrieve_weather_data():
             icon=data['weather'][0]['icon']
         )
 
-        engine = create_engine('sqlite:///database.sqlite')
+        engine = create_engine(settings.db_uri)
         with Session(engine) as session:
             session.add(measurement)
             session.commit()

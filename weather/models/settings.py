@@ -11,4 +11,3 @@ class Settings(BaseSettings):
         env_file_encoding='utf-8',
         env_prefix='weather_'
     )
-
