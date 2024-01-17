@@ -7,10 +7,9 @@ from fastapi_restful.tasks import repeat_every
 from loguru import logger
 from sqlmodel import create_engine, Session
 
+from weather.dependencies import get_settings
 from weather.models.measurement import Measurement
 from weather.models.settings import Settings
-
-settings = Settings()
 
 router = APIRouter()
 
@@ -23,7 +22,7 @@ def retrieve_weather_data():
     params = {
         'q': 'kosice',
         'units': 'metric',
-        'appid': settings.api_token,
+        'appid': get_settings().api_token,
         'lang': 'en'
     }
     response = httpx.get('https://api.openweathermap.org/data/2.5/weather', params=params)
@@ -44,7 +43,7 @@ def retrieve_weather_data():
             icon=data['weather'][0]['icon']
         )
 
-        engine = create_engine(settings.db_uri)
+        engine = create_engine(get_settings().db_uri)
         with Session(engine) as session:
             session.add(measurement)
             session.commit()

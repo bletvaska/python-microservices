@@ -7,6 +7,7 @@ from sqlmodel import create_engine, SQLModel
 
 from weather.api.measurements import router as measurements_router
 from weather.cron import router as cron_router
+from weather.dependencies import get_settings
 from weather.models.measurement import MeasurementAdmin
 from weather.models.settings import Settings
 
@@ -14,10 +15,8 @@ app = FastAPI()
 app.include_router(measurements_router)
 app.include_router(cron_router)
 
-settings = Settings()
-
 # create db schema
-engine = create_engine(settings.db_uri)
+engine = create_engine(get_settings().db_uri)
 SQLModel.metadata.create_all(engine)
 
 # admin ui
