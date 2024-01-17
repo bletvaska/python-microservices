@@ -11,6 +11,7 @@ def list_of_pokemons():
     return []
 ```
 
+
 ## Getting the Data from DB
 
 ```python

@@ -24,7 +24,7 @@ admin = Admin(app, engine)
 admin.add_view(MeasurementAdmin)
 
 
-@app.get("/get_all")
+@app.get("/api/measurements")
 def get_all_measurements(city: str = None):
     engine = create_engine('sqlite:///database.sqlite')
 
@@ -36,7 +36,7 @@ def get_all_measurements(city: str = None):
         return session.exec(statement).all()
 
 
-@app.get('/get_last')
+@app.get('/api/measurements/last')
 def get_last_measurement():
     engine = create_engine('sqlite:///database.sqlite')
 
