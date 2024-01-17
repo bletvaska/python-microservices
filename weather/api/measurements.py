@@ -4,12 +4,12 @@ from sqlmodel import create_engine, Session, select
 from weather.models.measurement import Measurement
 from weather.models.settings import Settings
 
-settings = Settings()
 router = APIRouter()
 
 
 @router.get("/api/measurements")
-def get_all_measurements(city: str = None):
+def get_all_measurements():
+    settings = Settings()
     engine = create_engine(settings.db_uri)
 
     with Session(engine) as session:
@@ -22,6 +22,7 @@ def get_all_measurements(city: str = None):
 
 @router.get('/api/measurements/last')
 def get_last_measurement():
+    settings = Settings()
     engine = create_engine(settings.db_uri)
 
     with Session(engine) as session:
