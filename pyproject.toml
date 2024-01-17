@@ -17,6 +17,7 @@ sqlmodel = "^0.0.14"
 pendulum = "^3.0.0"
 sqladmin = "^0.16.0"
 pydantic-settings = "^2.1.0"
+fastapi-pagination = "^0.12.14"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.20.0"
