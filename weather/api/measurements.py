@@ -1,19 +1,31 @@
 from fastapi import APIRouter, Depends
-from sqlmodel import create_engine, Session, select
+from sqlmodel import Session, select
 
-from weather.dependencies import get_settings, get_session
+from weather.dependencies import get_session
 from weather.models.measurement import Measurement
+from weather.models.pager import Pager
 
 router = APIRouter()
 
 
 @router.get("/api/measurements")
-def get_all_measurements(session: Session = Depends(get_session)):
-    statement = select(Measurement)
-    # if city is not None:
-    #     statement = statement.where(Measurement.city == city)
+def list_of_measurements(page: int = 1,
+                         page_size: int = 20,
+                         session: Session = Depends(get_session)):
+    statement = (
+        select(Measurement)
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+    )
+    results = session.exec(statement).all()
 
-    return session.exec(statement).all()
+    pager = Pager(
+        first=f'http://localhost:8000/api/measurements?page=1&page_size={page_size}',
+        results=list(results),
+        count=len(results)
+    )
+
+    return pager
 
 
 @router.get('/api/measurements/last')

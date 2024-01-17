@@ -23,25 +23,17 @@ def get_settings() -> Settings:
 
 ## Získanie nastavení v kóde
 
-Dve možnosti:
+priamo zavolame
 
-* priamym volaním
-
-   ```python
-   settings = get_settings()
-   ```
-
-* parameter funkcie:
-
-   ```python
-   @router.get("/api/measurements")
-   def get_all_measurements(settings: Settings = Dependes(get_settings)):
-      pass
-   ```
+```python
+settings = get_settings()
+```
 
 
 ## Funkcia `get_session()`
 
+* generator
+*
 ```python
 def get_session() -> Session:
     engine = create_engine(get_settings().db_uri)
@@ -49,5 +41,10 @@ def get_session() -> Session:
         yield session
 ```
 
+pouzijeme ako parameter funkcie (path operation):
 
-
+```python
+@router.get("/api/measurements")
+def get_all_measurements(settings: Settings = Dependes(get_settings)):
+   pass
+```
