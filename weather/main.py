@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import json
 import http
 
 import pendulum
@@ -55,7 +54,7 @@ def retrieve_weather_data():
         'q': 'kosice',
         'units': 'metric',
         'appid': '9e547051a2a00f2bf3e17a160063002d',
-        'lang': 'eng'
+        'lang': 'en'
     }
     response = httpx.get('https://api.openweathermap.org/data/2.5/weather', params=params)
 

@@ -16,6 +16,7 @@ loguru = "^0.7.2"
 sqlmodel = "^0.0.14"
 pendulum = "^3.0.0"
 sqladmin = "^0.16.0"
+pydantic-settings = "^2.1.0"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.20.0"
