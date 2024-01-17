@@ -11,7 +11,7 @@ from fastapi_restful.tasks import repeat_every
 from sqladmin import Admin
 from sqlmodel import create_engine, SQLModel, Session, select
 
-from weather.models import Measurement, MeasurementAdmin
+from weather.models.measurement import Measurement, MeasurementAdmin
 
 app = FastAPI()
 
