@@ -19,6 +19,10 @@ Jinja2 je veľmi populárny. Síce vychádza zo šablónovacieho systému, ktor�
 Balík so šablónovacím systémom Jinja2 je už nainštalovaný, pretože ho používa samotný Apache Airflow. Ak by ste ho však chceli používať pre svoje vlastné projekty, nainštalujete ho nasledovným príkazom:
 
 ```bash
+# ak pouzivame poetry
+$ poetry add jinja2
+
+# ak pouzivame len pip
 $ pip install jinja2
 ```
 
@@ -58,6 +62,35 @@ Nakoniec necháme šablónu vyrenderovať pomocou metódy `.render()`:
 >>> template.render(name='World')
 'Hello, World!'
 ```
+
+
+## Jinja2 a FastAPI
+
+pripojime priecinok k endpointu `/static`. budeme ho pouzivat na staticke subory, ako JavaScript-ove skripty, kaskadne styly, obrazky a podobne:
+
+```python
+from pathlib import Path
+from starlette.staticfiles import StaticFiles
+
+app.mount("/static",
+          StaticFiles(directory=Path(__file__).parent / "static"),
+          name="static")
+```
+
+vyskusat to mozeme napriklad tak, ze si v prehliadaci alebo z prikazoveho riadku nechame zobrazit css subor, ktory sa v tom priecinku nachadza:
+
+```bash
+$ http http://localhost:8000/static/images/bitday.png
+```
+
+## dependencies
+
+```python
+@lru_cache
+def get_templates() -> Jinja2Templates:
+    return Jinja2Templates(directory=Path(__file__).parent / "templates")
+```
+
 
 
 ## Práca so šablónami uloženými v súbore
