@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid box">
+  <div id="now" class="row justify-content-center">
+    {{ now.strftime('%H:%M') }}
+  </div>
+
+  <div id="date" class="row justify-content-center">
+    {{ now.strftime('%d. %B. %Y') }}
+  </div>
+
+  <div id="sun" class="row justify-content-center">
+    <span title="Sunrise at {{ sunrise.strftime("%H:%M:%S") }}"><i class="wi wi-sunrise"></i> {{ sunrise.strftime("%H:%M:%S") }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span title="Sunset at {{ sunset.strftime("%H:%M:%S") }}"><i class="wi wi-sunset"></i> {{ sunset.strftime("%H:%M:%S") }}</span>
+  </div>
+</div>
+
+<div id="version">
+  {{ version }}@{{ environment }}
+</div>
+
+<div id="city">
+  <a href="https://www.google.com/maps/search/?api=1&query={{ weather.latitude }},{{ weather.longitude }}">
+    <i class="bi bi-geo-alt"></i>{{ weather.city }}, {{ weather.country.upper() }}
+  </a>
+  <div id="measurement" class="row justify-content-center">
+    <span title="Current temperature is {{ weather.temp }}&deg;C"><i class="wi wi-thermometer"></i> {{ weather.temp }}&deg;C</span>&nbsp;&nbsp;
+    <span title="Current humidity is {{ weather.humidity }}&deg;C"><i class="wi wi-humidity"></i> {{ weather.humidity }}%</span>&nbsp;&nbsp;
+    <span title="Current pressure is {{ weather.pressure }}hPa"><i class="wi wi-barometer"></i> {{ weather.pressure }}hPa</span>
+  </div>
+</div>
+
+<div class="d-flex flex-column">
+  <div id="credits" class="d-flex justify-content-center">
+    (c) mirek 2022 - 2023
+  </div>
+</div>
+{% endblock %}
