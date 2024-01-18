@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import Session, select
 from sqlalchemy.exc import NoResultFound
+from loguru import logger
 
 from weather.dependencies import get_session
 from weather.models.problemdetails import ProblemDetails
@@ -31,7 +32,9 @@ def detail_measurement(slug: int, session: Session = Depends(get_session)):
     try:
         statement = select(Measurement).where(Measurement.id == slug)
         return session.exec(statement).one()
-    except NoResultFound as ex:
+    except NoResultFound:
+        logger.warning(f"Measurement {slug} not found.")
+
         content = ProblemDetails(
             status=http.HTTPStatus.NOT_FOUND,
             title='Measurement not found',
