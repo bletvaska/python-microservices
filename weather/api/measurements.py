@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.links import Page
 from fastapi.responses import JSONResponse
 from fastapi_pagination.ext.sqlmodel import paginate
+from sqlalchemy import func
 from sqlmodel import Session, select
 from sqlalchemy.exc import NoResultFound
 from loguru import logger
@@ -19,7 +20,7 @@ router = APIRouter()
 def get_measurements(city: str | None = None, session: Session = Depends(get_session)):
     statement = select(Measurement)
     if city is not None:
-        statement = statement.where(Measurement.city == city)
+        statement = statement.where(func.lower(Measurement.city) == city.lower())
 
     return paginate(session, statement)
 
