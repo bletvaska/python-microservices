@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
@@ -6,6 +7,7 @@ from fastapi_pagination import add_pagination
 from sqladmin import Admin
 from sqlmodel import create_engine, SQLModel
 from loguru import logger
+from fastapi.staticfiles import StaticFiles
 
 from weather.api.measurements import router as measurements_router
 from weather.cron import router as cron_router
@@ -17,6 +19,12 @@ app.include_router(measurements_router)
 app.include_router(cron_router)
 
 add_pagination(app)
+
+app.mount(
+    '/static',
+    StaticFiles(directory=Path(__file__).parent / 'static'),
+    name='static'
+)
 
 # create db schema
 engine = create_engine(get_settings().db_uri)
