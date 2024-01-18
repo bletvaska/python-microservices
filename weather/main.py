@@ -11,12 +11,14 @@ from fastapi.staticfiles import StaticFiles
 
 from weather.api.measurements import router as measurements_router
 from weather.cron import router as cron_router
+from weather.views.homepage import router as homepage_router
 from weather.dependencies import get_settings
 from weather.models.measurement import MeasurementAdmin
 
 app = FastAPI()
 app.include_router(measurements_router)
 app.include_router(cron_router)
+app.include_router(homepage_router)
 
 add_pagination(app)
 
