@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+import http
+
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi_pagination.links import Page
 from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import Session, select
@@ -27,9 +29,18 @@ def detail_measurement(slug: int, session: Session = Depends(get_session)):
     measurement = session.exec(statement).one_or_none()
 
     if measurement is None:
-        return {
-            "error": f"Measurement {slug} not found."
-        }
+        # raise HTTPException(
+        #     status_code=http.HTTPStatus.NOT_FOUND,
+        #     detail=f"Measurement {slug} not found."
+        # )
+        from fastapi.responses import JSONResponse
+        return JSONResponse(
+            status_code=http.HTTPStatus.NOT_FOUND,
+            content={
+                "error": f"Measurement {slug} not found.",
+                "code": http.HTTPStatus.NOT_FOUND
+            }
+        )
 
     return measurement
 
