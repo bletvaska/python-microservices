@@ -1,5 +1,5 @@
 import http
-from datetime import datetime
+from datetime import date
 
 from fastapi import APIRouter, Depends
 from fastapi_pagination.links import Page
@@ -18,8 +18,8 @@ router = APIRouter()
 
 
 @router.get("/api/measurements", response_model=Page[Measurement])
-def get_measurements(start_date: datetime | None = None,
-                     end_date: datetime | None = None,
+def get_measurements(start_date: date | None = None,
+                     end_date: date | None = None,
                      city: str | None = None,
                      session: Session = Depends(get_session)):
     statement = select(Measurement)
