@@ -21,6 +21,19 @@ def get_last_measurement(session: Session = Depends(get_session)):
     return session.exec(statement).first()
 
 
+@router.get('/api/measurements/{slug}')
+def detail_measurement(slug: int, session: Session = Depends(get_session)):
+    statement = select(Measurement).where(Measurement.id == slug)
+    measurement = session.exec(statement).one_or_none()
+
+    if measurement is None:
+        return {
+            "error": f"Measurement {slug} not found."
+        }
+
+    return measurement
+
+
 # MeasurementOut -> pridat linku na zaznam
 # * vytvorit
 # pridat parametre do /measurements na ziskanie zaznamov v danom casovom rozsahu
