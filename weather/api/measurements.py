@@ -16,8 +16,11 @@ router = APIRouter()
 
 
 @router.get("/api/measurements", response_model=Page[Measurement])
-def list_of_measurements(session: Session = Depends(get_session)):
+def get_measurements(city: str | None = None, session: Session = Depends(get_session)):
     statement = select(Measurement)
+    if city is not None:
+        statement = statement.where(Measurement.city == city)
+
     return paginate(session, statement)
 
 
@@ -28,7 +31,7 @@ def get_last_measurement(session: Session = Depends(get_session)):
 
 
 @router.get('/api/measurements/{slug}')
-def detail_measurement(slug: int, session: Session = Depends(get_session)):
+def get_measurement(slug: int, session: Session = Depends(get_session)):
     try:
         statement = select(Measurement).where(Measurement.id == slug)
         return session.exec(statement).one()
