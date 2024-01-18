@@ -1,11 +1,14 @@
 import http
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi_pagination.links import Page
+from fastapi.responses import JSONResponse
 from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import Session, select
+from sqlalchemy.exc import NoResultFound
 
 from weather.dependencies import get_session
+from weather.models.problemdetails import ProblemDetails
 from weather.models.measurement import Measurement
 
 router = APIRouter()
@@ -25,25 +28,22 @@ def get_last_measurement(session: Session = Depends(get_session)):
 
 @router.get('/api/measurements/{slug}')
 def detail_measurement(slug: int, session: Session = Depends(get_session)):
-    statement = select(Measurement).where(Measurement.id == slug)
-    measurement = session.exec(statement).one_or_none()
-
-    if measurement is None:
-        # raise HTTPException(
-        #     status_code=http.HTTPStatus.NOT_FOUND,
-        #     detail=f"Measurement {slug} not found."
-        # )
-        from fastapi.responses import JSONResponse
-        return JSONResponse(
-            status_code=http.HTTPStatus.NOT_FOUND,
-            content={
-                "error": f"Measurement {slug} not found.",
-                "code": http.HTTPStatus.NOT_FOUND
-            }
+    try:
+        statement = select(Measurement).where(Measurement.id == slug)
+        return session.exec(statement).one()
+    except NoResultFound as ex:
+        content = ProblemDetails(
+            status=http.HTTPStatus.NOT_FOUND,
+            title='Measurement not found',
+            detail=f"Measurement {slug} not found.",
+            instance=f'/api/mesurements/{slug}'
         )
 
-    return measurement
-
+        return JSONResponse(
+            status_code=content.status,
+            content=content.model_dump(),
+            media_type='application/problem+json'
+        )
 
 # MeasurementOut -> pridat linku na zaznam
 # * vytvorit
