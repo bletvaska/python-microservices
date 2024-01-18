@@ -1,4 +1,5 @@
 import http
+from datetime import datetime
 
 from fastapi import APIRouter, Depends
 from fastapi_pagination.links import Page
@@ -17,10 +18,20 @@ router = APIRouter()
 
 
 @router.get("/api/measurements", response_model=Page[Measurement])
-def get_measurements(city: str | None = None, session: Session = Depends(get_session)):
+def get_measurements(start_date: datetime | None = None,
+                     end_date: datetime | None = None,
+                     city: str | None = None,
+                     session: Session = Depends(get_session)):
     statement = select(Measurement)
+
     if city is not None:
         statement = statement.where(func.lower(Measurement.city) == city.lower())
+
+    if start_date is not None:
+        statement = statement.where(Measurement.dt >= start_date)
+
+    if end_date is not None:
+        statement = statement.where(Measurement.dt < end_date)
 
     return paginate(session, statement)
 
