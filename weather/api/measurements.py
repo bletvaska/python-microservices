@@ -12,12 +12,12 @@ from loguru import logger
 
 from weather.dependencies import get_session
 from weather.models.problemdetails import ProblemDetails
-from weather.models.measurement import Measurement
+from weather.models.measurement import Measurement, MeasurementOut
 
 router = APIRouter()
 
 
-@router.get("/api/measurements", response_model=Page[Measurement])
+@router.get("/api/measurements", response_model=Page[MeasurementOut])
 def get_measurements(start_date: date | None = None,
                      end_date: date | None = None,
                      city: str | None = None,
