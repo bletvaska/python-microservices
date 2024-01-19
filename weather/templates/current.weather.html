@@ -3,16 +3,16 @@
 {% block body %}
 <div class="container-fluid box">
   <div id="now" class="row justify-content-center">
-    {{ now.strftime('%H:%M') }}
+    {{ now | strftime("%H:%M") }}
   </div>
 
   <div id="date" class="row justify-content-center">
-    {{ now.strftime('%d. %B. %Y') }}
+    {{ now | strftime('%d. %B. %Y') }}
   </div>
 
   <div id="sun" class="row justify-content-center">
-    <span title="Sunrise at {{ sunrise.strftime("%H:%M:%S") }}"><i class="wi wi-sunrise"></i> {{ sunrise.strftime("%H:%M:%S") }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-    <span title="Sunset at {{ sunset.strftime("%H:%M:%S") }}"><i class="wi wi-sunset"></i> {{ sunset.strftime("%H:%M:%S") }}</span>
+    <span title="Sunrise at {{ sunrise | strftime("%H:%M:%S") }}"><i class="wi wi-sunrise"></i> {{ sunrise.strftime("%H:%M:%S") }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span title="Sunset at {{ sunset | strftime("%H:%M:%S") }}"><i class="wi wi-sunset"></i> {{ sunset.strftime("%H:%M:%S") }}</span>
   </div>
 </div>
 
