@@ -11,5 +11,3 @@ def j2_strftime(value, format='%Y-%m-%d') -> str:
         return pendulum.from_timestamp(value).strftime(format)
 
     return pendulum.parse(value).strftime(format)
-
-
