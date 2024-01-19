@@ -10,6 +10,7 @@ from loguru import logger
 from fastapi.staticfiles import StaticFiles
 
 from weather.api.measurements import router as measurements_router
+from weather.api.healthcheck import router as healthcheck_router
 from weather.cron import router as cron_router
 from weather.views.homepage import router as homepage_router
 from weather.dependencies import get_settings, get_session
@@ -19,6 +20,7 @@ app = FastAPI()
 app.include_router(measurements_router)
 app.include_router(cron_router)
 app.include_router(homepage_router)
+app.include_router(healthcheck_router)
 
 add_pagination(app)
 
