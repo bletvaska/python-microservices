@@ -76,13 +76,6 @@
 * Je dôležité rozumieť ako ich rozdielu, tak aj tomu, kedy ich použiť.
 
 
-## Health Check a FastAPI
-
-* pre FastAPI je na to modul https://github.com/Kludex/fastapi-health
-
-
-
-
 ## Summary
 
 * health check je požiadavka na každý distribuovaný systém

@@ -1,0 +1,2 @@
+# Vytvorenie Docker obrazu
+
