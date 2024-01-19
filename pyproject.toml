@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "weather"
-version = "0.1.0"
+version = "2024.1.1"
 description = "The weather microservice."
 authors = ["Miroslav Biňas <miroslav.binas@tuke.sk>"]
 readme = "readme.md"
@@ -30,6 +30,5 @@ litecli = "^1.10.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-#[tool.poetry.scripts]
-#pokedex="weather.main:main"  # python -m weather.main
-
+[tool.poetry.scripts]
+weather = "weather.main:main"  # python -m weather.main
