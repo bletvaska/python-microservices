@@ -5,15 +5,15 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
 from sqladmin import Admin
-from sqlmodel import create_engine, SQLModel
+from sqlmodel import create_engine, SQLModel, select
 from loguru import logger
 from fastapi.staticfiles import StaticFiles
 
 from weather.api.measurements import router as measurements_router
 from weather.cron import router as cron_router
 from weather.views.homepage import router as homepage_router
-from weather.dependencies import get_settings
-from weather.models.measurement import MeasurementAdmin
+from weather.dependencies import get_settings, get_session
+from weather.models.measurement import MeasurementAdmin, Measurement, MeasurementOut
 
 app = FastAPI()
 app.include_router(measurements_router)
@@ -40,6 +40,12 @@ admin.add_view(MeasurementAdmin)
 @app.on_event('startup')
 def on_start():
     logger.info('Application is starting.')
+
+    # with next(get_session()) as session:
+    #     statement = select(Measurement)
+    #     measurement = session.exec(statement).all()[0]
+    #     data = measurement.model_dump()
+    #     print(MeasurementOut(**data))
 
 
 def main():

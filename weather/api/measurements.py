@@ -36,7 +36,7 @@ def get_measurements(start_date: date | None = None,
     return paginate(session, statement)
 
 
-@router.get('/api/measurements/last')
+@router.get('/api/measurements/last', response_model=MeasurementOut)
 def get_last_measurement(session: Session = Depends(get_session)):
     statement = select(Measurement).order_by(Measurement.id.desc())
     return session.exec(statement).first()

@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import Any
 
-from pydantic import BaseModel, HttpUrl, validator, field_validator
+from pydantic import BaseModel, HttpUrl, field_validator, model_validator
 from sqladmin import ModelView
 from sqlmodel import SQLModel, Field
 
@@ -27,12 +28,17 @@ class MeasurementOut(BaseModel):
     temperature: float
     url: HttpUrl | None = None
 
-    @field_validator('url')
-    @classmethod
-    def set_url(cls, value, values):
-        print(value)
-        print(values)
-        return f'{get_settings().base_url}/api/measurements/1'
+    # @model_validator(mode='before')
+    # # @classmethod
+    # def double(self, data: Any) -> Any:
+    #     # print(data)
+    #     # print(type(data))
+    #     print(self)
+    #
+    #     # if isinstance(data, dict):
+    #     self.url = f'{get_settings().base_url}/api/measurement/{self.id}'
+    #
+    #     return self
 
 
 class MeasurementAdmin(ModelView, model=Measurement):
