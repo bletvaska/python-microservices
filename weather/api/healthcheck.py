@@ -35,3 +35,19 @@ def healthcheck():
             'database': db
         }
     )
+
+
+@router.get('/healthy')
+def healthy():
+    return JSONResponse(
+        status_code=200,
+        content="healthy"
+    )
+
+
+@router.get('/unhealthy')
+def unhealthy():
+    return JSONResponse(
+        status_code=500,
+        content="unhealthy"
+    )
