@@ -25,7 +25,7 @@
     <i class="bi bi-geo-alt"></i>{{ weather.city }}, {{ weather.country.upper() }}
   </a>
   <div id="measurement" class="row justify-content-center">
-    <span title="Current temperature is {{ weather.temp }}&deg;C"><i class="wi wi-thermometer"></i> {{ weather.temp }}&deg;C</span>&nbsp;&nbsp;
+    <span title="Current temperature is {{ weather.temperature }}&deg;C"><i class="wi wi-thermometer"></i> {{ weather.temperature }}&deg;C</span>&nbsp;&nbsp;
     <span title="Current humidity is {{ weather.humidity }}&deg;C"><i class="wi wi-humidity"></i> {{ weather.humidity }}%</span>&nbsp;&nbsp;
     <span title="Current pressure is {{ weather.pressure }}hPa"><i class="wi wi-barometer"></i> {{ weather.pressure }}hPa</span>
   </div>
@@ -33,7 +33,7 @@
 
 <div class="d-flex flex-column">
   <div id="credits" class="d-flex justify-content-center">
-    (c) mirek 2022 - 2023
+    (c) mirek 2022 - 2024
   </div>
 </div>
 {% endblock %}

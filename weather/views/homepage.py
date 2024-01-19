@@ -3,8 +3,9 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlmodel import Session, select
 
-from weather.dependencies import get_templates, get_session
+from weather.dependencies import get_templates, get_session, get_settings
 from weather.models.measurement import Measurement
+from weather.models.settings import Settings
 
 router = APIRouter()
 
@@ -12,6 +13,7 @@ router = APIRouter()
 @router.get('/')
 def homepage(
     request: Request,
+    settings: Settings = Depends(get_settings),
     session: Session = Depends(get_session),
     templates: Jinja2Templates = Depends(get_templates)
 ):
@@ -25,7 +27,10 @@ def homepage(
         'now': pendulum.now(),
         'sunrise': pendulum.now(),
         'sunset': pendulum.now(),
-        'weather': measurement
+        'weather': measurement,
+        'refresh': '45',
+        'version': '2024.01',
+        'environment': settings.environment
     }
 
     return templates.TemplateResponse('current.weather.html', context)
