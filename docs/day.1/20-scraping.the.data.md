@@ -1,17 +1,32 @@
 # Stiahnutie aktuálneho počasia
 
+## HTTP klient
 
-## Instalacia ipython
+použijeme modul `httpx`
+
+príklad použitia:
+
 ```python
-$ poetry add  --group dev ipython httpie
+url = 'https://api.openweathermap.org/data/2.5/weather'
+params = {
+   'q': 'kosice,sk',
+   'appid': '9e547051a2a00f2bf3e17a160063002d'
+}
+response = httpx.get(url, params=params)
+return response.json()
 ```
 
-
-## Pouzitie modulu httpx
+## Vytvorenie path operation
 
 ```python
-import httpx
-
-response = httpx.get("https://api.openweathermap.org/data/2.5/weather&unitx=metric&q=kosice,sk&appid=")
+@app.get('/api/weather')
+async def get_weather():
+   url = 'https://api.openweathermap.org/data/2.5/weather'
+   params = {
+      'q': 'kosice,sk',
+      'appid': '9e547051a2a00f2bf3e17a160063002d'
+   }
+   response = httpx.get(url, params=params)
+   return response.json()
 ```
 

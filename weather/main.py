@@ -2,6 +2,8 @@ import httpx
 import uvicorn
 from fastapi import FastAPI
 
+from .models.settings import Settings
+
 app = FastAPI()
 
 
@@ -11,11 +13,13 @@ def hello():
 
 
 @app.get('/api/weather')
-async def get_weather():
+async def get_weather(city: str, units: str = 'metric'):
+    settings = Settings()
     url = 'https://api.openweathermap.org/data/2.5/weather'
     params = {
-        'q': 'kosice,sk',
-        'appid': '9e547051a2a00f2bf3e17a160063002d'
+        'q': city,
+        'units': units,
+        'appid': settings.api_token
     }
     response = httpx.get(url, params=params)
     return response.json()
