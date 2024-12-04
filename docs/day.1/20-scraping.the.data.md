@@ -1,9 +1,11 @@
 # Stiahnutie aktuálneho počasia
 
+
 ## Instalacia ipython
 ```python
 $ poetry add  --group dev ipython httpie
 ```
+
 
 ## Pouzitie modulu httpx
 

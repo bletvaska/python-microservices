@@ -1,5 +1,6 @@
 # Spustenie aplikacie
 
+
 ## Running the App from CLI
 
 nasledne mozeme aplikaciu spustit prikazom z korenoveho priecinku projektu
@@ -13,6 +14,7 @@ alebo ako modul:
 ```bash
 $ python -m pokedex.main
 ```
+
 
 ## Running with PyCharm
 
@@ -64,4 +66,7 @@ alebo univerzalne mozeme vytvorit spustac pre Python modul:
 }
 ```
 
+
 ## Refactoring with module `__main__.py`
+
+

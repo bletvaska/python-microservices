@@ -11,6 +11,16 @@
 
 * Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
 
+* je to jeden nástroj, ktorý viete použiť na:
+
+   * vitvorenie virtuálneho prostredia (`python -m venv`, `virtualenvwrapper`, `uv venv`, ...)
+   * aktiváciu virtuálneho priestoru (`source .venv/bin/activate`, ...)
+   * inštaláciu balíčkov (`pip`, `uv pip`, ...)
+   * vytvorenie inštalačného balíčka (`setuptools`, ...)
+   * konfiguráciu projektu a nastavenie rozličných nástrojov
+
+* je to taký all-in-one
+
 
 ## Poetry Installation
 

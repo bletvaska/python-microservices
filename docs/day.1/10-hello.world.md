@@ -4,6 +4,7 @@ rámec FastAPI, vlastnosti, inštalácia, prvé použitie
 
 * [porovnanie s inými rámcami a technológiami](https://www.techempower.com/benchmarks/#section=data-r20&hw=ph&test=query&l=v2p4an-db&a=2)
 
+
 ## Inštalácia
 
 Ramec FastAPI nainstalujeme pomocou nastroja `poetry`. Okrem neho vsak budeme potrebovat aj ASGI server `uvicorn`. Oba
@@ -12,6 +13,7 @@ baliky nainstalujeme prikazom:
 ```bash
 $ poetry add fastapi uvicorn[standard]
 ```
+
 
 ## Hello World!
 
@@ -45,6 +47,7 @@ Funkciu `hello()` budeme nazývať _path operation_.
 
 Ak IDE nerozpoznava pouzite balicky (napr. podciarkuje priamo v importe balik `fastapi`), je potrebne zvolit spravny
 interpreter jazyka Python. Konkretne ten, ktory je pouzity v prostredi vytvorenom pomocou nastroja `poetry`.
+
 
 ### Zistenie cesty interpretera jazyka Python
 
@@ -88,6 +91,7 @@ nasledne je potrebne nainstalovat vsetky balicky prikazom:
 $ poetry install
 ```
 
+
 ### Visual Studio Code
 
 v pravom dolnom rohu treba kliknut na oznacenie interpreteru jazyka Python a nasledne zvolit cestu veducu k prostrediu,
@@ -99,12 +103,14 @@ rovnaku ponuku vieme zobrazit cez `Command Palette...` a zadanim polozky `Python
 ak sme vybrali interpreter spravne, nezname balicky prestanu byt podciarknute a rovnako tak zacne fungovat aj
 automaticke doplnovanie kodu.
 
+
 ### PyCharm
 
 <!--
 #### Python Project Interpreter Update
 
 Aktualne sa bude PyCharm stazovat na to, ze nepozna jednotlive moduly, ktore pouzivame a vela veci v nasom kode bude podciarknutych cervenou farbou. to je preto, ze o virtualne prostredie sa momentalne stara `poetry` a _PyCharm_ o tom nevie. aktualizujeme teda nastavenia interpretra:
+
 
 1. otvorime `File` > `Settings`
 2. v dialogovom okne nasledne `Project: fishare` > `Python Interpreter`
@@ -124,3 +130,4 @@ mame v podstate dva sposoby:
     * interpereter - poetry set
     * nastavit workdir na korenovy priecinok projektu
 -->
+
