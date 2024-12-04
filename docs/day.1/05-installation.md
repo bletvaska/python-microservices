@@ -30,9 +30,16 @@ $ poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
 
 ## Inicializacia projektu pomocou `poetry`
 
-v domovskom priecinku projektu inicializujeme projekt pomocou `poetry` prikazom
+Najprv si vytvoríme priečinok pre celý projekt. Nazveme ho `weather_project/`. Ten postfix nám pomôže identifikovať, že sa jedná o priečinok s projektom.
 
 ```bash
+$ mkdir weather_project
+```
+
+Prejdeme do priečinku `weather_project/` a inicializujeme projekt pomocou `poetry` prikazom
+
+```bash
+$ cd weather_project/
 $ poetry init
 ```
 
@@ -43,15 +50,15 @@ nasledne sa spusti sprievodca, pomocou ktoreho nastavime metaudaje projektu. vys
 nasledne vytvorime zakladnu kostru projektu, ktora bude vyzerat takto:
 
 ```
-fishare_project
-├── fishare
+weather_project
+├── weather
 │   ├── __init__.py
 │   └── main.py
 ├── pyproject.toml
 └── readme.md
 ```
 
-**Poznamka:** priecinok `fishare/` bude obsahovat kod nasho projektu. mozete sa stretnut ale aj s nazvami `src/` alebo `app/` v zavislosti od zvyklosti vyvojarov.
+**Poznamka:** priecinok `weather/` bude obsahovat kod nasho projektu. mozete sa stretnut ale aj s nazvami `src/` alebo `app/` v zavislosti od zvyklosti vyvojarov.
 
 
 ## Pridanie/nainstalovanie zavislosti
