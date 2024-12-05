@@ -5,6 +5,7 @@ from typing import Literal
 import httpx
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException
+from sqlmodel import Session
 
 from .dependencies import get_settings, get_db_engine
 from .models.measurement import Measurement
@@ -37,7 +38,10 @@ def scrape_data():
     print(measurement)
 
     # store measurement to db
-    engine = get_db_engine()
+    session = Session(get_db_engine())
+    session.add(measurement)  # INSERT
+    session.commit()
+    session.close()
 
 
 @asynccontextmanager
