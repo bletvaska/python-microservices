@@ -4,11 +4,14 @@
 
 [Pydantic](https://docs.pydantic.dev/latest/) is the most widely used data validation library for Python.
 
-Balík `pydantic` najprv nainštalujeme:
+
+## Instalacia balika a pluginu
+Balík `pydantic` je už súčasťou `fastapi`. Manuálne ho nainštalujeme takto:
 
 ```bash
 $ poetry add pydantic
 ```
+
 a pre lepsiu pracu si nainstalujeme aj plugin pre pycharm, aby isiel `pydantic`. otvorime nastavenia cez `File >
 Settings > Plugins` a nechame vyhladat a nainstalovat plugin s nazvom `Pydantic`.
 
@@ -26,12 +29,17 @@ from pydantic import BaseModel
 
 
 class Measurement(BaseModel):
+    # when
     dt: datetime            # UTC
+
+    # where
+    city: str
+    country: str
+
+    # what
     temperature: float      # °C
     humidity: float
     pressure: float         # hPa
-    city: str
-    country: str
     wind_speed: float       # m/s
     wind_direction: int     # °
     sunrise: datetime       # UTC

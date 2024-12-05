@@ -7,14 +7,30 @@
 
 ## Analýza dát
 
-Z každého merania nás budú zaujímať tieto údaje:
+O merani nas budu vseobecne zaujimat tieto veci:
 
-* `pokedex_number` - poradové číslo Pokémona v Pokédexe
-* `name` - meno Pokémona
-* `height` - výška Pokémona
-* `weight` - hmotnosť Pokémona
-* `classification` -
-* `type1` -
-* `type2` -
+* kedy k meraniu doslo
+* kde sa meranie uskutocnilo
+* co sa nameralo
+
+Takze zakategorizujeme jednotlive udaje zo ziskanych dat do uvedenych kategorii:
+
+### Kedy
+
+* `dt`
+
+### Kde
+
+* `city` -
+* `country` -
+
+### Co
+
+* `temperature` -
+* `humidity` -
+* `pressure` -
+* `sunset` -
+* `sunrise` -
+
 
 A z týchto vlastností vytvoríme model.
