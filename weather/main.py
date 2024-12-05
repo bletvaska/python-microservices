@@ -39,7 +39,6 @@ def scrape_data():
     # store measurement to db
 
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup
@@ -47,7 +46,7 @@ async def lifespan(app: FastAPI):
 
     # start scheduler
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scrape_data, 'interval', seconds=10)
+    scheduler.add_job(scrape_data, 'interval', seconds=get_settings().interval)
     scheduler.start()
 
     yield
