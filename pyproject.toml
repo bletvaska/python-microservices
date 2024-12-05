@@ -6,7 +6,7 @@ authors = ["mirek <mirek@cnl.sk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.13"
 fastapi = { extras = ["standard"], version = "^0.115.6" }
 pydantic-settings = "^2.6.1"
 

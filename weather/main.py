@@ -1,15 +1,9 @@
 import httpx
-import uvicorn
 from fastapi import FastAPI
 
 from .dependencies import get_settings
 
 app = FastAPI()
-
-
-@app.get("/api/hello")
-def hello():
-    return "Hello, World!!"
 
 
 @app.get('/api/weather', description='get weather info for given city')
@@ -22,12 +16,3 @@ async def get_weather(city: str, units: str = 'metric'):
     }
     response = httpx.get(url, params=params)
     return response.json()
-
-
-def main():
-    uvicorn.run('weather.main:app', reload=True,
-                host='0.0.0.0', port=8000)
-
-
-if __name__ == '__main__':
-    main()
