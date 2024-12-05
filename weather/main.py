@@ -37,13 +37,11 @@ def scrape_data():
         sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
         sunset=pendulum.from_timestamp(data['sys']['sunset']),
     )
-    print(measurement)
 
     # store measurement to db
-    # session = Session(get_db_engine())
-    # session.add(measurement)  # INSERT
-    # session.commit()
-    # session.close()
+    with Session(get_db_engine()) as session:
+        session.add(measurement)  # INSERT
+        session.commit()
 
 
 @asynccontextmanager
@@ -67,6 +65,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+print(get_settings())
 
 # create db schema
 SQLModel.metadata.create_all(get_db_engine())
