@@ -12,7 +12,6 @@ zabalíme do Docker obrazu a pripravíme ju na použitie v klastri.
 
 Znalosť jazyka Python na tomto školení je nutná.
 
-
 ## Preberané témy
 
 * správa projektu pomocou [Poetry](https://python-poetry.org)
@@ -25,7 +24,9 @@ Znalosť jazyka Python na tomto školení je nutná.
 * modul Faker pre vytváranie testovacích údajov
 * modul `pathlib`
 * ošetrovanie chýb
-* spracovanie konfigurácie pomocou `.env` súborov
+* logovanie
+* spracovanie konfigurácie pomocou premenných prostredia
+  modulom [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 * šablónovací systém [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
 * kontrola stavu mikroslužby (healthcheck)
 * zbieranie metrík
