@@ -4,12 +4,12 @@
 
 * problem: niekolko nastrojov a procesov na spravu a manazment projektov
 
-
 ## What is Poetry
 
 * Python packaging and dependency management made easy
 
-* Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
+* Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your
+  project depends on and it will manage (install/update) them for you.
 
 * je to jeden nástroj, ktorý viete použiť na:
 
@@ -20,7 +20,6 @@
    * konfiguráciu projektu a nastavenie rozličných nástrojov
 
 * je to taký all-in-one
-
 
 ## Poetry Installation
 
@@ -37,32 +36,41 @@ je mozne pridat aj podporu pre automaticke doplnanie prikazov vo vasom interpret
 $ poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
 ```
 
-
 ## Inicializacia projektu pomocou `poetry`
 
-v domovskom priecinku projektu inicializujeme projekt pomocou `poetry` prikazom
+Najprv si vytvoríme priečinok pre celý projekt. Nazveme ho `weather_project/`. Ten postfix nám pomôže identifikovať, že
+sa jedná o priečinok s projektom.
 
 ```bash
+$ mkdir weather_project
+```
+
+Prejdeme do priečinku `weather_project/` a inicializujeme projekt pomocou `poetry` prikazom
+
+```bash
+$ cd weather_project/
 $ poetry init
 ```
 
-nasledne sa spusti sprievodca, pomocou ktoreho nastavime metaudaje projektu. vysledkom inicializacie bude vytvorenie suboru `pyproject.toml`.
+nasledne sa spusti sprievodca, pomocou ktoreho nastavime metaudaje projektu. vysledkom inicializacie bude vytvorenie
+suboru `pyproject.toml`.
 
-**Poznamka:** V prvom kroku sa nastroj `poetry` bude pytat na nazov balicku. Nazov balicku nie je nazvom projektu! Pre uvedenie nazvu balicku preto pouzivajte len male pismena bez medzier.
+**Poznamka:** V prvom kroku sa nastroj `poetry` bude pytat na nazov balicku. Nazov balicku nie je nazvom projektu! Pre
+uvedenie nazvu balicku preto pouzivajte len male pismena bez medzier.
 
 nasledne vytvorime zakladnu kostru projektu, ktora bude vyzerat takto:
 
 ```
-fishare_project
-├── fishare
+weather_project
+├── weather
 │   ├── __init__.py
 │   └── main.py
 ├── pyproject.toml
 └── readme.md
 ```
 
-**Poznamka:** priecinok `fishare/` bude obsahovat kod nasho projektu. mozete sa stretnut ale aj s nazvami `src/` alebo `app/` v zavislosti od zvyklosti vyvojarov.
-
+**Poznamka:** priecinok `weather/` bude obsahovat kod nasho projektu. mozete sa stretnut ale aj s nazvami `src/` alebo
+`app/` v zavislosti od zvyklosti vyvojarov.
 
 ## Pridanie/nainstalovanie zavislosti
 
@@ -86,7 +94,8 @@ overit instalaciu mozeme opat prikazov `show`:
 $ poetry show
 ```
 
-ked sa pozrieme do suboru `pyproject.toml`, tak sa balik `ipython` bude nachadzat v hlavnych zavislostiach. tento balik vsak patri do vyvojarskych zavislosti, takze ho bud rucne presunieme alebo ho najprv zmazeme pomocou prikazu `remove`:
+ked sa pozrieme do suboru `pyproject.toml`, tak sa balik `ipython` bude nachadzat v hlavnych zavislostiach. tento balik
+vsak patri do vyvojarskych zavislosti, takze ho bud rucne presunieme alebo ho najprv zmazeme pomocou prikazu `remove`:
 
 ```bash
 $ poetry remove ipython
@@ -97,10 +106,6 @@ a nasledne ho nainstalujeme s prepinacom `--dev`, ktory prave zabezpeci, aby sa 
 ```bash
 $ poetry add --group dev ipython
 ```
-
-
-
-
 
 <!--
 ## Vytvorenie projektu
@@ -122,7 +127,6 @@ Projekt sa vytvori automaticky a bude prazdny. To je pre nas odrazovy mostik na 
 najprv do nasho prostredia nainstalujeme balik `poetry`. to mozeme spravit cez `File` > `Settings` > `Project: fishare` > `Python Interpreter`
 -->
 
-
 ## Rozšírenia pre Visual Studio Code
 
 * [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
@@ -132,7 +136,6 @@ najprv do nasho prostredia nainstalujeme balik `poetry`. to mozeme spravit cez `
 * [SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite)
 * [Even Better TOML](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml)
 * [Python Indent](https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent)
-
 
 ## Inštalácia balíkov do Python-u
 

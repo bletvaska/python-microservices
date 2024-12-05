@@ -12,7 +12,7 @@ def hello():
     return "Hello, World!!"
 
 
-@app.get('/api/weather')
+@app.get('/api/weather', description='get weather info for given city')
 async def get_weather(city: str, units: str = 'metric'):
     url = 'https://api.openweathermap.org/data/2.5/weather'
     params = {
