@@ -5,10 +5,11 @@ from typing import Literal
 import httpx
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException
-from sqlmodel import Session
+from sqladmin import Admin
+from sqlmodel import SQLModel
 
 from .dependencies import get_settings, get_db_engine
-from .models.measurement import Measurement
+from .models.measurement import Measurement, MeasurementAdmin
 
 
 def scrape_data():
@@ -38,10 +39,10 @@ def scrape_data():
     print(measurement)
 
     # store measurement to db
-    session = Session(get_db_engine())
-    session.add(measurement)  # INSERT
-    session.commit()
-    session.close()
+    # session = Session(get_db_engine())
+    # session.add(measurement)  # INSERT
+    # session.commit()
+    # session.close()
 
 
 @asynccontextmanager
@@ -62,6 +63,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+# create db schema
+SQLModel.metadata.create_all(get_db_engine())
+
+admin = Admin(app, get_db_engine())
+admin.add_view(MeasurementAdmin)
+
 
 
 @app.get('/api/weather', description='get weather info for given city')

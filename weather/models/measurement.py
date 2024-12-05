@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from sqladmin import ModelView
 from sqlmodel import SQLModel, Field
 
 
@@ -14,3 +15,7 @@ class Measurement(SQLModel, table=True):
     country: str
     city: str
     dt: datetime
+
+
+class MeasurementAdmin(ModelView, model=Measurement):
+    pass
