@@ -3,21 +3,34 @@ from http import HTTPStatus
 from typing import Literal
 
 import httpx
+from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException
 
 from .dependencies import get_settings
 from .models.measurement import Measurement
 
 
+def scrape_data():
+    # scrape data
+    # create measurement
+    # store measurement to db
+    print('>> scraping data')
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup
     print('>> App Initialization')
 
+    # start scheduler
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(scrape_data, 'interval',  seconds=10)
+    scheduler.start()
+
     yield
 
     # teardown
     print('>> App Shutdown')
+    scheduler.shutdown()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -53,8 +66,4 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
     return measurement
 
 
-def weather_scraper():
-    # scrape data
-    # create measurement
-    # store measurement to db
-    pass
+
