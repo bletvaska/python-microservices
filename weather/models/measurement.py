@@ -18,4 +18,25 @@ class Measurement(SQLModel, table=True):
 
 
 class MeasurementAdmin(ModelView, model=Measurement):
-    pass
+    icon = 'fa-solid fa-temperature-half'
+    column_list = [
+        Measurement.id,
+        Measurement.dt,
+        Measurement.city,
+        Measurement.temperature,
+        Measurement.humidity,
+        Measurement.pressure,
+    ]
+    column_labels = {
+        Measurement.dt: 'Measurement Time'
+    }
+    column_sortable_list = [
+        Measurement.dt,
+        Measurement.city
+    ]
+    column_searchable_list = [
+        Measurement.city,
+        Measurement.country,
+    ]
+    page_size = 50
+    page_size_options = [25, 50, 100]

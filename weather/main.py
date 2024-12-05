@@ -67,9 +67,9 @@ app = FastAPI(lifespan=lifespan)
 # create db schema
 SQLModel.metadata.create_all(get_db_engine())
 
+# create admin view
 admin = Admin(app, get_db_engine())
 admin.add_view(MeasurementAdmin)
-
 
 
 @app.get('/api/weather', description='get weather info for given city')
