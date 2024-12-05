@@ -5,6 +5,7 @@ import httpx
 from fastapi import FastAPI, HTTPException
 
 from .dependencies import get_settings
+from .models.measurement import Measurement
 
 app = FastAPI()
 
@@ -20,9 +21,20 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
     response = httpx.get(url, params=params)
     data = response.json()
 
+    measurement = Measurement(
+        dt = data['dt'],
+        city = data['name'],
+        country = data['sys']['country'],
+        temperature = data['main']['temp'],
+        humidity = data['main']['humidity'],
+        pressure = data['main']['pressure'],
+        sunrise = data['sys']['sunrise'],
+        sunset = data['sys']['sunset'],
+    )
+
     if response.status_code != HTTPStatus.OK:
         raise HTTPException(response.status_code, detail={
             'message': data['message'],
         })
 
-    return data
+    return measurement
