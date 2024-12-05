@@ -11,10 +11,34 @@ from .models.measurement import Measurement
 
 
 def scrape_data():
-    # scrape data
-    # create measurement
-    # store measurement to db
     print('>> scraping data')
+
+    # scrape data
+    url = 'https://api.openweathermap.org/data/2.5/weather'
+    params = {
+        'q': 'kosice',
+        'units': 'metric',
+        'appid': get_settings().api_token
+    }
+    response = httpx.get(url, params=params)
+    data = response.json()
+
+    # create measurement
+    measurement = Measurement(
+        dt=data['dt'],
+        city=data['name'],
+        country=data['sys']['country'],
+        temperature=data['main']['temp'],
+        humidity=data['main']['humidity'],
+        pressure=data['main']['pressure'],
+        sunrise=data['sys']['sunrise'],
+        sunset=data['sys']['sunset'],
+    )
+    print(measurement)
+
+    # store measurement to db
+
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,7 +47,7 @@ async def lifespan(app: FastAPI):
 
     # start scheduler
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scrape_data, 'interval',  seconds=10)
+    scheduler.add_job(scrape_data, 'interval', seconds=10)
     scheduler.start()
 
     yield
@@ -64,6 +88,3 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
         })
 
     return measurement
-
-
-
