@@ -49,6 +49,7 @@ can add new jobs or remove old ones on the fly as you please. If you store your 
 survive scheduler restarts and maintain their state. When the scheduler is restarted, it will then run all the jobs
 it should have run while it was offline
 
+
 ### Inštalácia
 
 ```bash
@@ -57,11 +58,11 @@ $ poetry add apscheduler
 
 ### Použitie
 
-Najprv vytvoríme funkciu (Job), ktorej spúšťanie naplánujeme. Bude vyzerať takto:
+Najprv vytvoríme funkciu, ktorej spúšťanie naplánujeme. Na začiatok bude vyzerať takto:
 
 ```python
 def retrieve_weather_data():
-   pass
+   print('>> Retrieving data')
 ```
 
 Následne naplánujeme jej spúšťanie počas inicializácie aplikácie vo funkcii `lifespan`. Celý časovač vypneme pri
@@ -79,7 +80,7 @@ async def lifespan(app: FastAPI):
 
    # start scheduler
    scheduler = BackgroundScheduler()
-   scheduler.add_job(retrieve_weather_data, "interval", minutes=1)
+   scheduler.add_job(retrieve_weather_data, "interval", seconds=10)
    scheduler.start()
 
    yield
@@ -89,59 +90,39 @@ async def lifespan(app: FastAPI):
    scheduler.shutdown()
 ```
 
-<!--
-najprv nainstalujeme balik `fastapi-restful`, ktory ma zavislost na baliku `typing-inspect`:
+
+## Lab: Funkcia `retrieve_weather_data()`
+
+Vytvorte funkciu `retrieve_weather_data()`, ktorá stiahne dáta o počasí pre Košice a zo získaných dát vytvorí objekt
+typu `Measurement`.
+
 
 ```python
-$ poetry add fastapi-restful typing-inspect
+def scrape_data():
+    print('>> scraping data')
+
+    # scrape data
+    settings = get_settings()
+    url = 'https://api.openweathermap.org/data/2.5/weather'
+
+     params = {
+         'q': 'kosice',
+         'units': 'metric',
+         'appid': settings.api_token
+     }
+     response = httpx.get(url, params=params)
+     data = response.json()
+
+     # create measurement
+     measurement = Measurement(
+         dt=data['dt'],
+         city=data['name'],
+         country=data['sys']['country'],
+         temperature=data['main']['temp'],
+         humidity=data['main']['humidity'],
+         pressure=data['main']['pressure'],
+         sunrise=data['sys']['sunrise'],
+         sunset=data['sys']['sunset'],
+     )
+     print(measurement)
 ```
-
-a vytvorime funkciu, ktora sa bude spustat kazdych 10 sekund:
-
-```python
-@app.on_event("startup")
-@repeat_every(seconds=10)
-def retrieve_weather_data():
-    print('>> retrieving')
-```
-
-
-## Opakovane stahovanie dat
-
-Refaktorujeme nas kod tak, aby sme data stiahli kazdych 20 minut a ulozili sme ich do suboru `weather.json`:
-
-```python
-@app.on_event("startup")
-@repeat_every(seconds=20 * 60)
-def retrieve_weather_data():
-    print('>> retrieving')
-
-    params = {
-        'q': 'kosice',
-        'units': 'metric',
-        'appid': '9e547051a2a00f2bf3e17a160063002d',
-        'lang': 'eng'
-    }
-    response = httpx.get('https://api.openweathermap.org/data/2.5/weatherx', params=params)
-
-    if response.status_code == http.HTTPStatus.OK:
-        with open('weather.json', 'w') as file:
-            json.dump(response.json(), file, indent=2)
-    else:
-        print('>> ta status kod je iny ako 200. ta zrob daco.')
-```
-
-
-## Aktualizacia API
-
-Nase REST API upravime zasa tak, ze ked pouzivatel poziada o data, posunieme mu tie, ktore mame ulozene:
-
-```python
-@app.get('/weather')
-def get_weather():
-    print('>> get weather')
-
-    with open('weather.json') as file:
-        return json.load(file)
-```
--->

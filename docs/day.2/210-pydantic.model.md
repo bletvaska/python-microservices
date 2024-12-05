@@ -53,7 +53,7 @@ class Measurement(BaseModel):
 Na základe vytvoreného modelu môžeme vytvoriť meranie aj ručne pomocou nastroja `ipython`:
 
 ```python
-from weather.models import Measurement
+from .models.measurement import Measurement
 
 measurement = Measurement(
    dt=0,

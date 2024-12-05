@@ -17,37 +17,42 @@ def scrape_data():
     print('>> scraping data')
 
     # scrape data
+    settings = get_settings()
     url = 'https://api.openweathermap.org/data/2.5/weather'
-    params = {
-        'q': 'kosice',
-        'units': 'metric',
-        'appid': get_settings().api_token
-    }
-    response = httpx.get(url, params=params)
-    data = response.json()
 
-    # create measurement
-    measurement = Measurement(
-        dt=pendulum.from_timestamp(data['dt']),
-        city=data['name'],
-        country=data['sys']['country'],
-        temperature=data['main']['temp'],
-        humidity=data['main']['humidity'],
-        pressure=data['main']['pressure'],
-        sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
-        sunset=pendulum.from_timestamp(data['sys']['sunset']),
-    )
+    for city in settings.cities:
+        params = {
+            'q': city,
+            'units': 'metric',
+            'appid': settings.api_token
+        }
+        response = httpx.get(url, params=params)
+        data = response.json()
 
-    # store measurement to db
-    with Session(get_db_engine()) as session:
-        session.add(measurement)  # INSERT
-        session.commit()
+        # create measurement
+        measurement = Measurement(
+            dt=pendulum.from_timestamp(data['dt']),
+            city=data['name'],
+            country=data['sys']['country'],
+            temperature=data['main']['temp'],
+            humidity=data['main']['humidity'],
+            pressure=data['main']['pressure'],
+            sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
+            sunset=pendulum.from_timestamp(data['sys']['sunset']),
+        )
+        print(measurement)
+
+        # store measurement to db
+        with Session(get_db_engine()) as session:
+            session.add(measurement)  # INSERT
+            session.commit()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup
     print('>> App Initialization')
+    # scrape_data()
 
     # start scheduler
     scheduler = BackgroundScheduler()
