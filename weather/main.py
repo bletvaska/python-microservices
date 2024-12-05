@@ -19,6 +19,7 @@ async def lifespan(app: FastAPI):
     # teardown
     print('>> App Shutdown')
 
+
 app = FastAPI(lifespan=lifespan)
 
 
@@ -34,14 +35,14 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
     data = response.json()
 
     measurement = Measurement(
-        dt = data['dt'],
-        city = data['name'],
-        country = data['sys']['country'],
-        temperature = data['main']['temp'],
-        humidity = data['main']['humidity'],
-        pressure = data['main']['pressure'],
-        sunrise = data['sys']['sunrise'],
-        sunset = data['sys']['sunset'],
+        dt=data['dt'],
+        city=data['name'],
+        country=data['sys']['country'],
+        temperature=data['main']['temp'],
+        humidity=data['main']['humidity'],
+        pressure=data['main']['pressure'],
+        sunrise=data['sys']['sunrise'],
+        sunset=data['sys']['sunset'],
     )
 
     if response.status_code != HTTPStatus.OK:
