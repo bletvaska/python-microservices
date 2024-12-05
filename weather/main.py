@@ -3,10 +3,11 @@ from http import HTTPStatus
 from typing import Literal
 
 import httpx
+import pendulum
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException
 from sqladmin import Admin
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Session
 
 from .dependencies import get_settings, get_db_engine
 from .models.measurement import Measurement, MeasurementAdmin
@@ -27,14 +28,14 @@ def scrape_data():
 
     # create measurement
     measurement = Measurement(
-        dt=data['dt'],
+        dt=pendulum.from_timestamp(data['dt']),
         city=data['name'],
         country=data['sys']['country'],
         temperature=data['main']['temp'],
         humidity=data['main']['humidity'],
         pressure=data['main']['pressure'],
-        sunrise=data['sys']['sunrise'],
-        sunset=data['sys']['sunset'],
+        sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
+        sunset=pendulum.from_timestamp(data['sys']['sunset']),
     )
     print(measurement)
 
@@ -52,7 +53,10 @@ async def lifespan(app: FastAPI):
 
     # start scheduler
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scrape_data, 'interval', seconds=get_settings().interval)
+    scheduler.add_job(
+        scrape_data,
+        'interval',
+        seconds=get_settings().interval)
     scheduler.start()
 
     yield
@@ -84,15 +88,21 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
     data = response.json()
 
     measurement = Measurement(
-        dt=data['dt'],
+        dt=pendulum.from_timestamp(data['dt']),
         city=data['name'],
         country=data['sys']['country'],
         temperature=data['main']['temp'],
         humidity=data['main']['humidity'],
         pressure=data['main']['pressure'],
-        sunrise=data['sys']['sunrise'],
-        sunset=data['sys']['sunset'],
+        sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
+        sunset=pendulum.from_timestamp(data['sys']['sunset']),
     )
+
+    session = Session(get_db_engine())
+    # from IPython import embed; embed()
+    session.add(measurement)  # INSERT
+    session.commit()
+    session.close()
 
     if response.status_code != HTTPStatus.OK:
         raise HTTPException(response.status_code, detail={
