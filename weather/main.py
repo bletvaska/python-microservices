@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from http import HTTPStatus
 from typing import Literal
 
@@ -7,7 +8,18 @@ from fastapi import FastAPI, HTTPException
 from .dependencies import get_settings
 from .models.measurement import Measurement
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # setup
+    print('>> App Initialization')
+
+    yield
+
+    # teardown
+    print('>> App Shutdown')
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get('/api/weather', description='get weather info for given city')
@@ -38,3 +50,10 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
         })
 
     return measurement
+
+
+def weather_scraper():
+    # scrape data
+    # create measurement
+    # store measurement to db
+    pass
