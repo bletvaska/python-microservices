@@ -5,9 +5,8 @@ from typing import Literal
 import httpx
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException
-from sqlmodel import create_engine, SQLModel
 
-from .dependencies import get_settings
+from .dependencies import get_settings, get_db_engine
 from .models.measurement import Measurement
 
 
@@ -38,6 +37,7 @@ def scrape_data():
     print(measurement)
 
     # store measurement to db
+    engine = get_db_engine()
 
 
 @asynccontextmanager
@@ -58,10 +58,6 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-
-# create db schema
-engine = create_engine(get_settings().db_uri)
-SQLModel.metadata.create_all(engine)
 
 
 @app.get('/api/weather', description='get weather info for given city')

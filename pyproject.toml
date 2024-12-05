@@ -16,6 +16,7 @@ sqlmodel = "^0.0.22"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.30.0"
 httpie = "^3.2.4"
+litecli = "^1.13.2"
 
 [build-system]
 requires = ["poetry-core"]
