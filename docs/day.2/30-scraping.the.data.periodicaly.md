@@ -7,8 +7,7 @@ mechanizmus, kedy vieme vykonať kód
 * **predtým**, ako sa aplikácia spustí a začne prijímať a obsluhovať požiadavky od klientov, a
 * **potom**, ako skončí s prijímaním požiadaviek a začne sa vypínať
 
-**Upozornenie:** Jedná sa o náhradu dekorátora `@app.on_event()`, ktorý je označený ako [`deprecated`]
-(https://fastapi.tiangolo.com/reference/apirouter/?h=on_event#fastapi.APIRouter.on_event).
+**Upozornenie:** Jedná sa o náhradu dekorátora `@app.on_event()`, ktorý je označený ako [`deprecated`](https://fastapi.tiangolo.com/reference/apirouter/?h=on_event#fastapi.APIRouter.on_event).
 
 
 ## Kód
