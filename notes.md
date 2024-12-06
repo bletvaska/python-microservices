@@ -32,3 +32,26 @@ Measurement()
 
 m = entries[0]
 m.id, m.city, m.country
+
+
+## REST API
+
+* nie je to protokol
+* resource based
+
+   /api/books
+   /api/measurements
+
+GET    /api/measurements       list     SELECT   [{},{},{}]
+GET    /api/measurements/:id   detail   SELECT   {}
+POST   /api/measurements                INSERT
+DELETE /api/measurements/:id            DELETE
+PATCH  /api/measurements/:id            UPDATE
+PUT    /api/measurements/:id            UPDATE
+
+http://namakany.web.sk:8080/api/books?author=foglar&published=1990
+SELECT *
+FROM books
+WHERE
+   author='foglar'
+   AND published=1990

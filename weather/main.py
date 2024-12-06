@@ -7,7 +7,7 @@ import pendulum
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException
 from sqladmin import Admin
-from sqlmodel import SQLModel, Session
+from sqlmodel import SQLModel, Session, select
 
 from .dependencies import get_settings, get_db_engine
 from .models.measurement import Measurement, MeasurementAdmin
@@ -114,3 +114,11 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
         })
 
     return measurement
+
+
+@app.get('/api/measurements')
+def get_measurements():
+    with Session(get_db_engine()) as session:
+        # SELECT * FROM measurement
+        statement = select(Measurement)
+        return session.exec(statement).all()

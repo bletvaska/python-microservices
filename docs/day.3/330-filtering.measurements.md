@@ -27,7 +27,7 @@ Budeme pouzivat dva parametre poziadavky navyse:
 ```python
 @router.get('/api/measurements')
 def list_measurements(city: str = None, start_date: datetime = None, end_date: datetime = None,
-                      session: Session = Depends(get_session)):
+                      session: Annotated[Session, Depends(get_session)]):
    # create select statement
    statement = select(Measurement)
    if city is not None:

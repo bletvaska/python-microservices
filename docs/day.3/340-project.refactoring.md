@@ -8,7 +8,7 @@ subormi. Štruktúra projektu bude nasledne vyzerat takto:
 ```
 project
 ├── weather
-│   ├── api
+│   ├── routers
 │   │   ├── measurements.py
 │   │   └── __init__.py
 │   ├── models
@@ -16,8 +16,7 @@ project
 │   │   ├── settings.py
 │   │   └── __init__.py
 │   ├── __init__.py
-│   ├── cron.py
-│   └── main.py
+│   └── app.py
 ├── pyproject.toml
 └── readme.md
 ```
@@ -25,3 +24,7 @@ project
 
 ## Modul `measurements.py`
 
+
+## Zdroje
+
+* [Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure)
