@@ -2,6 +2,8 @@ from datetime import date
 from typing import Annotated
 
 from fastapi import Depends, APIRouter
+from fastapi_pagination.ext.sqlmodel import paginate
+from fastapi_pagination.links import LimitOffsetPage
 from sqlalchemy import func
 from sqlmodel import select, Session
 
@@ -18,13 +20,11 @@ async def get_last_measurement(city: str,
     return session.exec(statement).first()
 
 
-@router.get('/{city}')
+@router.get('/{city}', response_model=LimitOffsetPage[Measurement])
 async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
                            city: str,
                            start_date: date = None,
-                           end_date: date = None,
-                           page: int = 1,
-                           page_size: int = 10):
+                           end_date: date = None):
     # SELECT * FROM measurement WHERE city=':city' AND dt >= ':start_date' AND dt < ':end_date'
     statement = select(Measurement)
 
@@ -37,13 +37,6 @@ async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
     if end_date is not None:
         statement = statement.where(Measurement.dt < end_date)
 
-    statement = statement.offset((page-1) * page_size).limit(page_size)
+    # statement = statement.offset((page-1) * page_size).limit(page_size)
 
-    return Pagination(
-        count=0,
-        first=None,
-        last=None,
-        previous=None,
-        next=None,
-        results=session.exec(statement).all()
-    )
+    return paginate(session, statement)

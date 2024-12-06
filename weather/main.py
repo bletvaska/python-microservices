@@ -4,6 +4,7 @@ import httpx
 import pendulum
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI
+from fastapi_pagination import add_pagination
 from sqladmin import Admin
 from sqlmodel import SQLModel, Session
 
@@ -69,6 +70,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+add_pagination(app)
 app.include_router(
     measurements.router,
     prefix='/api/measurements',
