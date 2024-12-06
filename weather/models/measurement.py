@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from pydantic import BaseModel, HttpUrl
 from sqladmin import ModelView
 from sqlmodel import SQLModel, Field
 
@@ -40,3 +41,12 @@ class MeasurementAdmin(ModelView, model=Measurement):
     ]
     page_size = 50
     page_size_options = [25, 50, 100]
+
+
+class Pagination(BaseModel):
+    count: int = 0
+    first: HttpUrl | None = None
+    last: HttpUrl | None = None
+    next: HttpUrl | None = None
+    previous: HttpUrl | None = None
+    results: list[Measurement] = []

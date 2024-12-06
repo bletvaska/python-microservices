@@ -6,7 +6,7 @@ from sqlalchemy import func
 from sqlmodel import select, Session
 
 from ..dependencies import get_db_session
-from ..models.measurement import Measurement
+from ..models.measurement import Measurement, Pagination
 
 router = APIRouter()
 
@@ -22,8 +22,10 @@ async def get_last_measurement(city: str,
 async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
                            city: str,
                            start_date: date = None,
-                           end_date: date = None):
-    # SELECT * FROM measurement WHERE city=':city'
+                           end_date: date = None,
+                           page: int = 1,
+                           page_size: int = 10):
+    # SELECT * FROM measurement WHERE city=':city' AND dt >= ':start_date' AND dt < ':end_date'
     statement = select(Measurement)
 
     if city is not None:
@@ -35,4 +37,13 @@ async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
     if end_date is not None:
         statement = statement.where(Measurement.dt < end_date)
 
-    return session.exec(statement).all()
+    statement = statement.offset((page-1) * page_size).limit(page_size)
+
+    return Pagination(
+        count=0,
+        first=None,
+        last=None,
+        previous=None,
+        next=None,
+        results=session.exec(statement).all()
+    )
