@@ -1,6 +1,7 @@
 from functools import cache
 
-from sqlmodel import create_engine
+from sqlalchemy import Engine
+from sqlmodel import create_engine, Session
 
 from .models.settings import Settings
 
@@ -12,6 +13,10 @@ def get_settings() -> Settings:
 
 
 @cache
-def get_db_engine():
+def get_db_engine() -> Engine:
     print('>> Loading database engine')
     return create_engine(get_settings().db_uri)
+
+def get_db_session() -> Session | None:
+    with Session(get_db_engine()) as session:
+        yield session

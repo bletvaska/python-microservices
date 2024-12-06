@@ -45,3 +45,4 @@ def list_of_measurements(session: Annotated[Session, Depends(get_session)]):
 
 * [Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/?h=dependency+injection)
 * [Session Dependency](https://fastapi.tiangolo.com/tutorial/sql-databases/?h=get_session#create-the-tables)
+* Nette: [Dependency Injection](https://doc.nette.org/cs/dependency-injection)
