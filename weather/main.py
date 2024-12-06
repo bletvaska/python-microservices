@@ -1,18 +1,17 @@
 from contextlib import asynccontextmanager
-from datetime import date
 from http import HTTPStatus
-from typing import Literal, Annotated
+from typing import Literal
 
 import httpx
 import pendulum
 from apscheduler.schedulers.background import BackgroundScheduler
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException
 from sqladmin import Admin
-from sqlalchemy import func
-from sqlmodel import SQLModel, Session, select
+from sqlmodel import SQLModel, Session
 
-from .dependencies import get_settings, get_db_engine, get_db_session
+from .dependencies import get_settings, get_db_engine
 from .models.measurement import Measurement, MeasurementAdmin
+from .routers import measurements
 
 
 def scrape_data():
@@ -72,7 +71,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-print(get_settings())
+app.include_router(
+    measurements.router,
+    prefix='/api/measurements',
+)
+# print(get_settings())
 
 # create db schema
 SQLModel.metadata.create_all(get_db_engine())
@@ -116,23 +119,3 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
         })
 
     return measurement
-
-
-@app.get('/api/measurements')
-async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
-                           city: str = None,
-                           start_date: date = None,
-                           end_date: date = None):
-    # SELECT * FROM measurement WHERE city=':city'
-    statement = select(Measurement)
-
-    if city is not None:
-        statement = statement.where(func.lower(Measurement.city) == city.lower())
-
-    if start_date is not None:
-        statement = statement.where(Measurement.dt >= start_date)
-
-    if end_date is not None:
-        statement = statement.where(Measurement.dt < end_date)
-
-    return session.exec(statement).all()
