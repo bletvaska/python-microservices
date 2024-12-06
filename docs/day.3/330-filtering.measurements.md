@@ -1,3 +1,12 @@
+todo:
+- cestu spravit s mestom:
+   ```python
+   @app.get('/api/measurements/{city}')
+   def list_of_measurements(city: str):
+       pass
+   ```
+---
+
 # Filtrovanie výsledkov
 
 Vysledky sa filtruju pomocou parametrov poziadavky (tzv. _query parameters_).
@@ -45,7 +54,6 @@ $ http http://localhost:8000/api/measurements city==KoSiCe
 ```
 
 
-
 # Lab: Filtrovanie podľa času
 
 Aktualizujte funkciu `get_measurements()` tak, aby bolo možné filtrovať výsledky aj podľa času merania.
@@ -56,11 +64,12 @@ Budeme pouzivat dva parametre poziadavky navyse:
 * `end_date` - dokedy
 
 ```python
-@app.get("/api/measurements")
-def get_measurements(start_date: date | None = None,
-                     end_date: date | None = None,
-                     city: str | None = None,
-                     session: Session = Depends(get_session)):
+@app.get('/api/measurements')
+async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
+                           city: str = None,
+                           start_date: date = None,
+                           end_date: date = None):
+    # SELECT * FROM measurement WHERE city=':city'
     statement = select(Measurement)
 
     if city is not None:
@@ -75,6 +84,13 @@ def get_measurements(start_date: date | None = None,
     return session.exec(statement).all()
 ```
 
+Testovanie:
+
+```bash
+$ http http://localhost:8000/api/measurements \
+  city=='kosice' \
+  start_date=='2024-12-05' end_date=='2024-12-06'
+```
 
 ## Linky
 

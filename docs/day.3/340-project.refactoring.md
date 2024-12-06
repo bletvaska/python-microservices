@@ -2,7 +2,7 @@
 
 ## Architektúra projektu
 
-Pre REST API urobime samostatny balik a v nom modul files.py, ktory bude obsahovat vsetky HTTP metody pre pracu so
+Pre REST API urobime samostatny balik a v nom modul `measurements.py`, ktory bude obsahovat vsetky HTTP metody pre pracu so
 subormi. Štruktúra projektu bude nasledne vyzerat takto:
 
 ```
@@ -16,13 +16,48 @@ project
 │   │   ├── settings.py
 │   │   └── __init__.py
 │   ├── __init__.py
-│   └── app.py
+│   └── main.py
 ├── pyproject.toml
 └── readme.md
 ```
 
 
 ## Modul `measurements.py`
+
+```python
+from fastapi import APIRouter
+
+router = APIRouter()
+
+@router.get('/api/measurements')
+async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
+                           city: str = None,
+                           start_date: date = None,
+                           end_date: date = None):
+    ...
+```
+
+
+## Modul `main.py`
+
+```python
+from .routers import measurements
+# from .router.measurements import measurements_router
+
+app = FastAPI()
+app.include_router(measurements.router)
+```
+
+Metóda `.include_router()` má však aj parametre. Jednou z nich je aj `prefix`:
+
+```python
+app.include_router(
+   measurements.router,
+   prefix='/api/measurements'
+)
+```
+
+Na základe prefixu je ale potrebné upraviť aj cesty pre funkcie _path operation_.
 
 
 ## Zdroje
