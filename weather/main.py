@@ -7,6 +7,7 @@ import pendulum
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException, Depends
 from sqladmin import Admin
+from sqlalchemy import func
 from sqlmodel import SQLModel, Session, select
 
 from .dependencies import get_settings, get_db_engine, get_db_session
@@ -117,7 +118,12 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
 
 
 @app.get('/api/measurements')
-async def get_measurements(session: Annotated[Session, Depends(get_db_session)]):
-    # SELECT * FROM measurement
+async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
+                           city: str = None):
+    # SELECT * FROM measurement WHERE city=':city'
     statement = select(Measurement)
+
+    if city is not None:
+        statement = statement.where(func.lower(Measurement.city) == city.lower())
+
     return session.exec(statement).all()

@@ -35,9 +35,11 @@ def get_session() -> Session:
 pouzijeme ako parameter funkcie (path operation):
 
 ```python
-@app.get("/api/measurements")
-def list_of_measurements(session: Annotated[Session, Depends(get_session)]):
-   pass
+@app.get('/api/measurements')
+async def get_measurements(session: Annotated[Session, Depends(get_session)]):
+    # SELECT * FROM measurement
+    statement = select(Measurement)
+    return session.exec(statement).all()
 ```
 
 
