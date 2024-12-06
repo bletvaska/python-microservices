@@ -8,7 +8,7 @@ from sqlalchemy import func
 from sqlmodel import select, Session
 
 from ..dependencies import get_db_session
-from ..models.measurement import Measurement, Pagination
+from ..models.measurement import Measurement
 
 router = APIRouter()
 
@@ -36,7 +36,5 @@ async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
 
     if end_date is not None:
         statement = statement.where(Measurement.dt < end_date)
-
-    # statement = statement.offset((page-1) * page_size).limit(page_size)
 
     return paginate(session, statement)
