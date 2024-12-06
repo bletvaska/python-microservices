@@ -117,7 +117,7 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
 
 
 @app.get('/api/measurements')
-def get_measurements():
+async def get_measurements():
     with Session(get_db_engine()) as session:
         # SELECT * FROM measurement
         statement = select(Measurement)
