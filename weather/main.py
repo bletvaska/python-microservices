@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from datetime import date
 from http import HTTPStatus
 from typing import Literal, Annotated
 
@@ -119,11 +120,19 @@ async def get_weather(city: str, units: Literal['standard', 'metric', 'imperial'
 
 @app.get('/api/measurements')
 async def get_measurements(session: Annotated[Session, Depends(get_db_session)],
-                           city: str = None):
+                           city: str = None,
+                           start_date: date = None,
+                           end_date: date = None):
     # SELECT * FROM measurement WHERE city=':city'
     statement = select(Measurement)
 
     if city is not None:
         statement = statement.where(func.lower(Measurement.city) == city.lower())
+
+    if start_date is not None:
+        statement = statement.where(Measurement.dt >= start_date)
+
+    if end_date is not None:
+        statement = statement.where(Measurement.dt < end_date)
 
     return session.exec(statement).all()
