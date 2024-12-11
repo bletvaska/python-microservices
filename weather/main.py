@@ -16,7 +16,7 @@ from .routers import measurements
 
 
 def scrape_data():
-    print('>> scraping data')
+    logger.info('scraping data')
 
     # scrape data
     settings = get_settings()
