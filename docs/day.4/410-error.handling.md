@@ -1,4 +1,4 @@
-from litecli.packages.special.dbcommands import status
+from weather.responses import ProblemDetailsResponsefrom litecli.packages.special.dbcommands import status
 
 # REST API Error Handling
 
@@ -186,14 +186,14 @@ async def get_last_measurement(city: str,
     measurement = session.exec(statement).first()
 
     if measurement is None:
-        problem = ProblemDetailsResponse(
+        problem = ProblemDetails(
             status=HTTPStatus.NOT_FOUND,
             title="Measurement not found",
             detail="Probably measurements for given city were not found in database. That means, the city doesnt exist or the measurements were not collected yet.",
             instance=f'/{city}/last'
         )
 
-       return JSONResponse(
+       return ProblemDetailsResponse(
           status_code=problem.status,
           content=problem.model_dump()
        )
@@ -205,23 +205,30 @@ Miesto toho ale mozeme upravit typ odpovede este viac:
 
 ```python
 class ProblemDetailsResponse(JSONResponse):
+    media_type = "application/problem+json"
+
     def __init__(
         self,
         title: str,
         detail: str,
         instance: str,
-        status_code: int = 500,
+        status_code: int = 200,
+        media_type: str | None = None,
         headers: typing.Mapping[str, str] | None = None,
         background: BackgroundTask | None = None,
-    ):
-        content = ProblemDetails(
-            status=status_code,
+    ) -> None:
+        problem = ProblemDetails(
             title=title,
             detail=detail,
-            instance=instance
+            instance=instance,
+            status=status_code,
         )
 
-        super().__init__(content.model_dump(), status_code, headers, "application/problem+json", background)
+        super().__init__(problem.model_dump(),
+                         status_code,
+                         headers,
+                         media_type,
+                         background)
 ```
 
 A v kode to potom pouzijeme takto:

@@ -3,7 +3,6 @@ from http import HTTPStatus
 from typing import Annotated
 
 from fastapi import Depends, APIRouter
-from fastapi.responses import JSONResponse
 from fastapi_pagination.ext.sqlmodel import paginate
 from fastapi_pagination.links import LimitOffsetPage
 from sqlalchemy import func
@@ -11,7 +10,7 @@ from sqlmodel import select, Session
 
 from ..dependencies import get_db_session
 from ..models.measurement import Measurement
-from ..models.problem_details import ProblemDetails
+from ..responses import ProblemDetailsResponse
 
 router = APIRouter()
 
@@ -23,17 +22,11 @@ async def get_last_measurement(city: str,
     measurement = session.exec(statement).first()
 
     if measurement is None:
-        content = ProblemDetails(
-            status=HTTPStatus.NOT_FOUND,
-            title='File not found',
-            detail=f"File with slug '{city}' does not exist.",
+        return ProblemDetailsResponse(
+            status_code=HTTPStatus.NOT_FOUND,
+            title='City not found',
+            detail=f"City with name '{city}' does not exist.",
             instance=f'/api/{city}/last'
-        )
-
-        return JSONResponse(
-            status_code=content.status,
-            media_type='application/problem+json',
-            content=content.model_dump()
         )
 
     return measurement

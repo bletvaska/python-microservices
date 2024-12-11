@@ -3,7 +3,7 @@ import typing
 from fastapi.responses import JSONResponse
 from starlette.background import BackgroundTask
 
-from .models.problem_details import ProblemDetails
+from weather.models.problem_details import ProblemDetails
 
 
 class ProblemDetailsResponse(JSONResponse):
@@ -15,12 +15,16 @@ class ProblemDetailsResponse(JSONResponse):
         status_code: int = 500,
         headers: typing.Mapping[str, str] | None = None,
         background: BackgroundTask | None = None,
-    ):
-        content = ProblemDetails(
-            status=status_code,
+    ) -> None:
+        problem = ProblemDetails(
             title=title,
             detail=detail,
-            instance=instance
+            instance=instance,
+            status=status_code,
         )
 
-        super().__init__(content.model_dump(), status_code, headers, "application/problem+json", background)
+        super().__init__(problem.model_dump(),
+                         status_code,
+                         headers,
+                         "application/problem+json",
+                         background)
