@@ -1,18 +1,21 @@
+from litecli.packages.special.dbcommands import status
+
 # REST API Error Handling
 
 Ak sa pozrieme na stavový kód HTTP požiadavky, tak prídeme na to, že je `200`. Pri nenájdení požiadavky by sme však mali
 vrátiť HTTP kód `404`.
 
 ```python
-@router.get('/api/measurements/{slug}')
-def get_last_measurement(slug: int, session: Session = Depends(get_session)):
-   statement = select(Measurement).where(Measurement.id == slug)
-   measurement = session.exec(statement).one_or_none()
+@router.get('/{city}/last')
+async def get_last_measurement(city: str,
+                               session: Annotated[Session, Depends(get_db_session)]):
+    statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
+    measurement = session.exec(statement).first()
 
-   if measurement is None:
+    if measurement is None:
         raise HTTPException(
-             status_code=404,
-             detail=f'Measurement with number {slug} not found.',
+             status_code=HTTPStatus.NOT_FOUND,
+             detail=f'There are no measurements for city {city}.',
          )
 
    return measurement
@@ -135,46 +138,111 @@ class ProblemDetails(BaseModel):
 pri vyhladavani suboru podla slug-u mozeme v pripade, ze sa subor nenasiel, skoncit s HTTP kodom stavu 404 takto:
 
 
-```python
-@router.get('/api/measurements/{number}')
-def get_last_measurement(number: int, session: Session = Depends(get_session)):
-   statement = select(Measurement).where(Measurement.id == number)
-   measurement = session.exec(statement).one_or_none()
-
-   if measurement is None:
-      raise HTTPException(
-         status_code=404,
-         detail=f'Measurement {number} not found.',
-      )
-
-   return measurement
-```
 
 ```python
-@router.get('/api/measurements/{slug}', summary='Get measurement detail.', response_model=Measurement)
-def get_last_measurement(slug: int, session: Session = Depends(get_session)):
-   statement = select(Measurement).where(Measurement.id == slug)
-   measurement = session.exec(statement).one_or_none()
+@router.get('/{city}/last')
+async def get_last_measurement(city: str,
+                               session: Annotated[Session, Depends(get_db_session)]):
+    statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
+    measurement = session.exec(statement).first()
 
    if measurement is None:
         content = ProblemDetails(
-            status=404,
+            status=HTTPStatus.NOT_FOUND,
             title='File not found',
-            detail=f"File with slug '{slug}' does not exist.",
-            instance=f'/api/v1/files/{slug}'
+            detail=f"File with slug '{city}' does not exist.",
+            instance=f'/api/{city}/last'
         )
 
         return JSONResponse(
             status_code=content.status,
             media_type='application/problem+json'
-            content=content.dict()
+            content=content.model_dump()
         )
 ```
 
 
 ## Content-type odpovede
 
-podla RFC 7807 ma byt content type odpovede ``. mozeme si teda urobit vlastny navratovy typ.
+podla RFC 7807 ma byt content type odpovede `application/problem+json`. mozeme si teda urobit vlastny navratovy typ.
+
+Za tymto ucelom vytvorime novy modul s nazvom `responses.py` a v nom vytvorime novy typ odpovede `ProblemDetailsResponse`.
+
+
+```python
+from fastapi.responses import JSONResponse
+
+class ProblemDetailsResponse(JSONResponse):
+    media_type = "application/problem+json"
+```
+
+A toto nam staci na to, aby sme ho vedeli pouzit nasledovne:
+
+```python
+@router.get('/{city}/last')
+async def get_last_measurement(city: str,
+                               session: Annotated[Session, Depends(get_db_session)]):
+    statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
+    measurement = session.exec(statement).first()
+
+    if measurement is None:
+        problem = ProblemDetailsResponse(
+            status=HTTPStatus.NOT_FOUND,
+            title="Measurement not found",
+            detail="Probably measurements for given city were not found in database. That means, the city doesnt exist or the measurements were not collected yet.",
+            instance=f'/{city}/last'
+        )
+
+       return JSONResponse(
+          status_code=problem.status,
+          content=problem.model_dump()
+       )
+
+    return measurement
+```
+
+Miesto toho ale mozeme upravit typ odpovede este viac:
+
+```python
+class ProblemDetailsResponse(JSONResponse):
+    def __init__(
+        self,
+        title: str,
+        detail: str,
+        instance: str,
+        status_code: int = 500,
+        headers: typing.Mapping[str, str] | None = None,
+        background: BackgroundTask | None = None,
+    ):
+        content = ProblemDetails(
+            status=status_code,
+            title=title,
+            detail=detail,
+            instance=instance
+        )
+
+        super().__init__(content.model_dump(), status_code, headers, "application/problem+json", background)
+```
+
+A v kode to potom pouzijeme takto:
+
+```python
+@router.get('/{city}/last')
+async def get_last_measurement(city: str,
+                               session: Annotated[Session, Depends(get_db_session)]):
+    statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
+    measurement = session.exec(statement).first()
+
+    if measurement is None:
+        return ProblemDetailsResponse(
+            status_code=HTTPStatus.NOT_FOUND,
+            title="Measurement not found",
+            detail="Probably measurements for given city were not found in database. That means, the city doesnt exist or the measurements were not collected yet.",
+            instance=f'/{city}/last'
+        )
+
+    return measurement
+```
 
 
 ## Podpora vo FastAPI

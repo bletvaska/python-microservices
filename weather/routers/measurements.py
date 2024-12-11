@@ -2,7 +2,7 @@ from datetime import date
 from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import Depends, APIRouter, HTTPException
+from fastapi import Depends, APIRouter, Request
 from fastapi_pagination.ext.sqlmodel import paginate
 from fastapi_pagination.links import LimitOffsetPage
 from sqlalchemy import func
@@ -10,20 +10,24 @@ from sqlmodel import select, Session
 
 from ..dependencies import get_db_session
 from ..models.measurement import Measurement
+from ..responses import ProblemDetailsResponse
 
 router = APIRouter()
 
 
 @router.get('/{city}/last')
-async def get_last_measurement(city: str,
+async def get_last_measurement(request: Request,
+                               city: str,
                                session: Annotated[Session, Depends(get_db_session)]):
     statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
     measurement = session.exec(statement).first()
 
     if measurement is None:
-        raise HTTPException(
+        return ProblemDetailsResponse(
             status_code=HTTPStatus.NOT_FOUND,
-            detail=f"City '{city}' not found."
+            title="Measurement not found",
+            detail="Probably measurements for given city were not found in database. That means, the city doesnt exist or the measurements were not collected yet.",
+            instance=request.url.path
         )
 
     return measurement
