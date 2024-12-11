@@ -14,7 +14,7 @@ from starlette.staticfiles import StaticFiles
 from .dependencies import get_settings, get_db_engine
 from .logging import init_logging
 from .models.measurement import Measurement, MeasurementAdmin
-from .routers import measurements
+from .routers import measurements, web
 
 
 def scrape_data():
@@ -81,6 +81,8 @@ app.include_router(
     measurements.router,
     prefix='/api/measurements',
 )
+app.include_router(web.router)
+
 app.mount('/static',
           StaticFiles(directory=Path(__file__).parent / 'static'),
 )
