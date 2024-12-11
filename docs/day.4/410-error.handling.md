@@ -146,7 +146,7 @@ async def get_last_measurement(city: str,
     statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
     measurement = session.exec(statement).first()
 
-   if measurement is None:
+    if measurement is None:
         content = ProblemDetails(
             status=HTTPStatus.NOT_FOUND,
             title='File not found',
@@ -156,7 +156,7 @@ async def get_last_measurement(city: str,
 
         return JSONResponse(
             status_code=content.status,
-            media_type='application/problem+json'
+            media_type='application/problem+json',
             content=content.model_dump()
         )
 ```
