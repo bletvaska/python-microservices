@@ -1,0 +1,112 @@
+
+html, body {
+    height: 100%;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+    /* border: 1px solid ; */
+}
+
+body {
+    /* background-color: #a5a5b1; */
+    /* display: grid; */
+    /* place-items: center; */
+    /* Background styles */
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/wallpaper.jpg'); */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    color: white;
+}
+
+#now {
+    font-size: 6em;
+    font-weight: bold;
+}
+
+#date {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#sun {
+    font-size: 1em;
+}
+
+.box {
+    position: relative;
+    top: 55%;
+}
+
+#version {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    opacity: 0.5;
+}
+
+
+#weather-info {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#weather-icon {
+    font-size: 3em;
+}
+
+#temp {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.flex-box {
+    display: flex;
+}
+
+
+#city {
+    position: absolute;
+    left: 3%;
+    top: 5%;
+    font-size: 3em;
+    opacity: 0.4;
+}
+
+ /* unvisited link */
+ a:link {
+    color: white;
+    opacity: 0.5;
+  }
+
+  /* visited link */
+  a:visited {
+    color: white;
+    opacity: 0.5;
+  }
+
+  /* mouse over link */
+  a:hover {
+    color: white;
+  }
+
+  /* selected link */
+  a:active {
+    color: white;
+  }
+
+#measurement {
+    font-size: 0.35em;
+}
+
+
+#credits {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    opacity: 0.5;
+}
