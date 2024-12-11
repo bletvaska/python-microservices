@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import httpx
 import pendulum
@@ -8,6 +9,7 @@ from fastapi_pagination import add_pagination
 from loguru import logger
 from sqladmin import Admin
 from sqlmodel import SQLModel, Session
+from starlette.staticfiles import StaticFiles
 
 from .dependencies import get_settings, get_db_engine
 from .logging import init_logging
@@ -79,7 +81,9 @@ app.include_router(
     measurements.router,
     prefix='/api/measurements',
 )
-# print(get_settings())
+app.mount('/static',
+          StaticFiles(directory=Path(__file__).parent / 'static'),
+)
 
 # create db schema
 SQLModel.metadata.create_all(get_db_engine())
