@@ -52,7 +52,7 @@ $ http http://localhost:8000/api/measurements/1
 
 ## Pridanie linky na zdroj
 
-Odporucanie - kazdy zdroj, ktory vratite, by mal obsahovat aj URL adresu, kde sa viete dostat k jeho detalu.
+Odporucanie - kazdy zdroj, ktory vratite, by mal obsahovat aj URL adresu, kde sa viete dostat k jeho detailu.
 
 Rozsirime teda model o clensku premennu `url` (alebo `link`):
 

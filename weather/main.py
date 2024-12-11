@@ -1,4 +1,6 @@
+import logging
 from contextlib import asynccontextmanager
+from logging import getLogger
 
 import httpx
 import pendulum
@@ -11,6 +13,9 @@ from sqlmodel import SQLModel, Session
 from .dependencies import get_settings, get_db_engine
 from .models.measurement import Measurement, MeasurementAdmin
 from .routers import measurements
+
+logger = getLogger(__name__)
+logging.basicConfig(level=logging.WARNING, format="%(asctime)s: %(levelname)s %(name)s - %(message)s")
 
 
 def scrape_data():
@@ -36,7 +41,7 @@ def scrape_data():
             country=data['sys']['country'],
             temperature=data['main']['temp'],
             humidity=data['main']['humidity'],
-            pressure=data['main']['pressure'],
+            pressure=data['main']['pressure'], 
             sunrise=pendulum.from_timestamp(data['sys']['sunrise']),
             sunset=pendulum.from_timestamp(data['sys']['sunset']),
         )
@@ -51,7 +56,8 @@ def scrape_data():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup
-    print('>> App Initialization')
+    logger.warning('>> App Initialization')
+
     # scrape_data()
 
     # start scheduler

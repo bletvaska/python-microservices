@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     interval: int = 60
     db_uri: str = 'sqlite:///weather.sqlite'
     cities: list[str] = []
+    # log_level: Literal['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'] = 'INFO'
 
     model_config = SettingsConfigDict(
         env_file_encoding='utf-8',

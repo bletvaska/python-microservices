@@ -46,6 +46,10 @@ $ http https://api.twitter.com/1.1/statuses/update.json?include_entities=true
 
 response:
 
+```http request
+HTTP/1.1 400 Bad Request
+```
+
 ```json
 {
     "errors": [
@@ -68,12 +72,16 @@ $ http 'https://graph.facebook.com/oauth/access_token?client_id=foo&client_secre
 
 response:
 
+```http request
+HTTP/1.1 400 Bad Request
+```
+
 ```json
 {
     "error": {
-        "code": 191,
-        "fbtrace_id": "Avr5QjIdTnvjvGm3MkuFqVD",
-        "message": "Missing redirect_uri parameter.",
+        "code": 100,
+        "fbtrace_id": "A6a08PZwgApfrkl5aYEaioI",
+        "message": "Invalid grant_type: 'baz'. Supported types: authorization_code, client_credentials",
         "type": "OAuthException"
     }
 }

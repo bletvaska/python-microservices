@@ -14,6 +14,7 @@ sqlmodel = "^0.0.22"
 sqladmin = "^0.20.1"
 pendulum = "^3.0.0"
 fastapi-pagination = "^0.12.32"
+loguru = "^0.7.3"
 
 
 [tool.poetry.group.dev.dependencies]
