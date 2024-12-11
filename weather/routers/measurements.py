@@ -2,7 +2,7 @@ from datetime import date
 from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Request
 from fastapi_pagination.ext.sqlmodel import paginate
 from fastapi_pagination.links import LimitOffsetPage
 from sqlalchemy import func
@@ -16,7 +16,8 @@ router = APIRouter()
 
 
 @router.get('/{city}/last')
-async def get_last_measurement(city: str,
+async def get_last_measurement(request: Request,
+                               city: str,
                                session: Annotated[Session, Depends(get_db_session)]):
     statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
     measurement = session.exec(statement).first()
@@ -24,9 +25,9 @@ async def get_last_measurement(city: str,
     if measurement is None:
         return ProblemDetailsResponse(
             status_code=HTTPStatus.NOT_FOUND,
-            title='City not found',
+            title='Measurement not found.',
             detail=f"City with name '{city}' does not exist.",
-            instance=f'/api/{city}/last'
+            instance=request.url.path,
         )
 
     return measurement
