@@ -1,11 +1,11 @@
 from typing import Annotated
 
 import pendulum
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy import func
 from sqlmodel import select, Session
-from starlette.responses import HTMLResponse
-from starlette.templating import Jinja2Templates
 
 from ..dependencies import get_jinja, get_db_session
 from ..models.measurement import Measurement
@@ -21,8 +21,9 @@ def hello(jinja: Annotated[Jinja2Templates, Depends(get_jinja)]):
     })
 
 
-@router.get('/{city}', response_class=HTMLResponse)
-def homepage(city: str,
+@router.get('/{city}')  # response_class=TemplateResponse
+def homepage(request: Request,
+             city: str,
              jinja: Annotated[Jinja2Templates, Depends(get_jinja)],
              session: Annotated[Session, Depends(get_db_session)]):
     # get measurement
@@ -31,6 +32,7 @@ def homepage(city: str,
 
     # prepare data
     context = {
+        'request': request,
         'now': pendulum.now().format('HH:mm'),
         'weather': measurement,
         'background_nr': pendulum.now().hour // 2 + 1,
@@ -38,5 +40,4 @@ def homepage(city: str,
     }
 
     # render data
-    template = jinja.get_template('homepage.html')
-    return template.render(context)
+    return jinja.TemplateResponse('homepage.html', context)
