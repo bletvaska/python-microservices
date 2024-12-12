@@ -16,6 +16,7 @@ pendulum = "^3.0.0"
 fastapi-pagination = "^0.12.32"
 loguru = "^0.7.3"
 jinja2 = "^3.1.4"
+starlette-prometheus = "^0.10.0"
 
 
 [tool.poetry.group.dev.dependencies]

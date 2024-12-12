@@ -13,6 +13,7 @@ from ..models.measurement import Measurement
 router = APIRouter()
 
 
+
 @router.get('/hello', response_class=HTMLResponse)
 def hello(jinja: Annotated[Jinja2Templates, Depends(get_jinja)]):
     template = jinja.get_template('hello.html')
@@ -41,3 +42,6 @@ def homepage(request: Request,
 
     # render data
     return jinja.TemplateResponse('current.weather.html', context)
+
+
+

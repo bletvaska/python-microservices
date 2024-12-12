@@ -10,11 +10,12 @@ from loguru import logger
 from sqladmin import Admin
 from sqlmodel import SQLModel, Session
 from starlette.staticfiles import StaticFiles
+from starlette_prometheus import PrometheusMiddleware, metrics
 
 from .dependencies import get_settings, get_db_engine
 from .logging import init_logging
 from .models.measurement import Measurement, MeasurementAdmin
-from .routers import measurements, web
+from .routers import measurements, web, healthcheck
 
 
 def scrape_data():
@@ -77,9 +78,19 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 add_pagination(app)
+
+# metrics
+app.add_middleware(PrometheusMiddleware)
+app.add_route('/metrics', metrics)
+
+# routes
 app.include_router(
     measurements.router,
     prefix='/api/measurements',
+)
+
+app.include_router(
+    healthcheck.router
 )
 app.include_router(web.router)
 
