@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "weather"
-version = "0.1.0"
+version = "2024.2.2"
 description = "Simple weather microservice in FastAPI."
 authors = ["mirek <mirek@cnl.sk>"]
 readme = "README.md"
@@ -18,7 +18,6 @@ loguru = "^0.7.3"
 jinja2 = "^3.1.4"
 starlette-prometheus = "^0.10.0"
 
-
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.30.0"
 httpie = "^3.2.4"
@@ -27,3 +26,6 @@ litecli = "^1.13.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start_app = 'weather.main:main'

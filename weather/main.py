@@ -3,6 +3,7 @@ from pathlib import Path
 
 import httpx
 import pendulum
+import uvicorn
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, Request
 from fastapi_pagination import add_pagination
@@ -118,3 +119,14 @@ async def add_process_time_to_header(request: Request, call_next):
     duration = pendulum.now() - start
     response.headers['X-Process-Time'] = f'{duration.microseconds}'
     return response
+
+
+def main():
+    # start app
+    uvicorn.run('weather.main:app',
+                reload=True,
+                host='0.0.0.0',
+                port=8000,
+                log_config=None,
+                log_level=None,
+                )
