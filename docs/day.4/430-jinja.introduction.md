@@ -64,3 +64,46 @@ Nakoniec necháme šablónu vyrenderovať pomocou metódy `.render()`:
 ```
 
 
+## Šablóny v súboroch
+
+Šablóny sú samozrejme väčšie, ako len jeden reťazec o dĺžke niekoľkých znakov (bytov). Kvôli jednoduchšiemu
+manažmentu ich ukladáme do samostatných súborov. A to si vyskúšame teraz - vytvoríme šablónu, ktorá bude
+reprezentovaná súborom, načítame ju a nasypeme do nej údaje.
+
+### Vytvorenie šablóny
+
+
+### Načítanie šablóny zo súboru
+
+Takže sa pripravíme a vytvoríme objekt typu `Environment` s parametrami. Pomocou nich nastavíme  priečinok, v ktorom
+bude Jinja vyhľadávať šablóny:
+
+```python
+>>> env = jinja2.Environment(
+  loader=jinja2.FileSystemLoader('/path/to/templates'),
+  autoescape=False
+)
+```
+
+Pomocou metódy `.get_template()` načítame šablónu zo súboru zadaním jej názvu:
+
+```python
+>>> template = env.get_template('weather.tpl.j2')
+```
+
+
+## Vykreslenie šablóny s dátami
+Nakoniec už len pripravíme údaje, ktoré budeme v šablóne renderovať. Uložíme ich do slovníka, kde kľúčom budú premenné použité v šablóne a hodnotou budú hodnoty, ktoré chceme zobraziť:
+
+```python
+>>> data = {
+   "city": "Košice",
+   "date": "2023-05-18"
+}
+```
+
+Nakoniec šablónu vykreslíme:
+
+```python
+>>> print(template.render(data))
+```

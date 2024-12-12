@@ -21,6 +21,7 @@ project
 └── readme.md
 ```
 
+Na to, ako sa da projekt upravit, sa da pozriet napr. do [tohto projektu](https://github.com/zhanymkanov/fastapi-best-practices?tab=readme-ov-file), ktory zhrna best practices pri tvorbe aplikacii s FastAPI.
 
 ## Modul `measurements.py`
 

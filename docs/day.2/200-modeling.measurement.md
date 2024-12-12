@@ -23,6 +23,8 @@ Takze zakategorizujeme jednotlive udaje zo ziskanych dat do uvedenych kategorii:
 
 * `city` -
 * `country` -
+* `latitude` -
+* `longitude` -
 
 ### Co
 
@@ -31,6 +33,10 @@ Takze zakategorizujeme jednotlive udaje zo ziskanych dat do uvedenych kategorii:
 * `pressure` -
 * `sunset` -
 * `sunrise` -
-
+* `weather_id` - identifikátor ikony počasia
+* `wind_speed` -
+* `description` - Textový opis počasia.
 
 A z týchto vlastností vytvoríme model.
+
+**Poznámka:** Toto sú vlastnosti, ktoré sú potrebné pre šablónu. Takže je potrebné do modelu zahrnúť minimálne tieto.
