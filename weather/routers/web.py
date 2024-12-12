@@ -40,4 +40,4 @@ def homepage(request: Request,
     }
 
     # render data
-    return jinja.TemplateResponse('homepage.html', context)
+    return jinja.TemplateResponse('current.weather.html', context)
