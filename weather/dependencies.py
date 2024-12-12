@@ -6,6 +6,7 @@ from loguru import logger
 from sqlalchemy import Engine
 from sqlmodel import create_engine, Session
 
+from .j2_filters import j2_strftime
 from .models.settings import Settings
 
 
@@ -27,4 +28,9 @@ def get_db_session() -> Session | None:
 
 @cache
 def get_jinja() -> Jinja2Templates:
-    return Jinja2Templates(directory=Path(__file__).parent / 'templates')
+    templates = Jinja2Templates(directory=Path(__file__).parent / 'templates')
+
+    # add filters
+    templates.env.filters['strftime'] = j2_strftime
+
+    return templates

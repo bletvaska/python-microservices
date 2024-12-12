@@ -26,16 +26,16 @@
 
 <div class="container-fluid box">
   <div id="now" class="row justify-content-center">
-    {{ now }}
+    {{ now | strftime('%H:%M') }}
   </div>
 
   <div id="date" class="row justify-content-center">
-    {{ now }}
+    {{ now | strftime('%d.%m.%Y') }}
   </div>
 
   <div id="sun" class="row justify-content-center">
-    <span title="Sunrise at {{ weather.sunrise }}"><i class="wi wi-sunrise"></i> {{ weather.sunrise }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-    <span title="Sunset at {{ weather.sunset }}"><i class="wi wi-sunset"></i> {{ weather.sunset }}</span>
+    <span title="Sunrise at {{ weather.sunrise | strftime('%H:%M %d.%m.%Y') }}"><i class="wi wi-sunrise"></i> {{ weather.sunrise | strftime('%H:%M') }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span title="Sunset at {{ weather.sunset | strftime('%H:%M %d.%m.%Y') }}"><i class="wi wi-sunset"></i> {{ weather.sunset | strftime('%H:%M') }}</span>
   </div>
 </div>
 
@@ -48,7 +48,7 @@
     <i class="bi bi-geo-alt"></i>{{ weather.city }}, {{ weather.country.upper() }}
   </a>
   <div id="measurement" class="row justify-content-center">
-    <span title="Current temperature is {{ weather.temp }}&deg;C"><i class="wi wi-thermometer"></i> {{ weather.temp }}&deg;C</span>&nbsp;&nbsp;
+    <span title="Current temperature is {{ weather.temperature }}&deg;C"><i class="wi wi-thermometer"></i> {{ weather.temperature }}&deg;C</span>&nbsp;&nbsp;
     <span title="Current humidity is {{ weather.humidity }}&deg;C"><i class="wi wi-humidity"></i> {{ weather.humidity }}%</span>&nbsp;&nbsp;
     <span title="Current pressure is {{ weather.pressure }}hPa"><i class="wi wi-barometer"></i> {{ weather.pressure }}hPa</span>
   </div>

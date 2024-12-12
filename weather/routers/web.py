@@ -1,5 +1,6 @@
 from typing import Annotated
 
+import pendulum
 from fastapi import APIRouter, Depends
 from sqlalchemy import func
 from sqlmodel import select, Session
@@ -30,10 +31,12 @@ def homepage(city: str,
 
     # prepare data
     context = {
-        'weather': measurement
+        'now': pendulum.now().format('HH:mm'),
+        'weather': measurement,
+        'background_nr': pendulum.now().hour // 2 + 1,
+        'refresh': 60,
     }
 
     # render data
     template = jinja.get_template('homepage.html')
     return template.render(context)
-
