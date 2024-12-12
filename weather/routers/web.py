@@ -28,8 +28,12 @@ def homepage(city: str,
     statement = select(Measurement).where(func.lower(Measurement.city) == city.lower()).order_by(Measurement.dt.desc())
     measurement = session.exec(statement).first()
 
+    # prepare data
+    context = {
+        'weather': measurement
+    }
+
     # render data
     template = jinja.get_template('homepage.html')
-    return template.render({
-    })
+    return template.render(context)
 
