@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/static/css/weather-icons-wind.min.css">
     <style>
       body {
-        background-image: url("/static/images/bitday.{{ '%02d' % background_nr }}.png");
+        background-image: url("/static/images/bitday.{{ '%02d' % background_nr | default(1, true) }}.png");
       }
     </style>
 
