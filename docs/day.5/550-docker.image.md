@@ -31,3 +31,31 @@ a spustime:
 ```bash
 $ docker container run -it --rm --publish 8000:8000 --env-file .env weather
 ```
+
+
+## Best Practices - Separate User
+
+```dockerfile
+RUN groupadd --gid 1000 maker \
+    && useradd --uid 1000 --gid 1000 --no-create-home maker \
+    && pip3 install apprise loguru paho-mqtt pydantic pydantic-settings
+
+USER maker
+```
+
+otestovat:
+
+```bash
+$ docker container exec --it notifier id
+```
+
+
+## Best Practices - Healthcheck
+
+```dockerfile
+HEALTHCHECK \
+    --interval=30s \
+    --timeout=10s \
+    --retries=3 \
+    CMD curl -d http://localhost:8000/healthcheck || exit 1
+```
