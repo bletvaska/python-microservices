@@ -4,7 +4,7 @@ from pathlib import Path
 import httpx
 import pendulum
 from apscheduler.schedulers.background import BackgroundScheduler
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi_pagination import add_pagination
 from loguru import logger
 from sqladmin import Admin
@@ -96,7 +96,7 @@ app.include_router(web.router)
 
 app.mount('/static',
           StaticFiles(directory=Path(__file__).parent / 'static'),
-)
+          )
 
 # create db schema
 SQLModel.metadata.create_all(get_db_engine())
@@ -104,3 +104,17 @@ SQLModel.metadata.create_all(get_db_engine())
 # create admin view
 admin = Admin(app, get_db_engine())
 admin.add_view(MeasurementAdmin)
+
+
+@app.middleware('http')
+async def add_process_time_to_header(request: Request, call_next):
+    # process incoming request
+    start = pendulum.now()
+
+    # call next middleware and finally call path operation
+    response = await call_next(request)
+
+    # process outgoing response
+    duration = pendulum.now() - start
+    response.headers['X-Process-Time'] = f'{duration.microseconds}'
+    return response
